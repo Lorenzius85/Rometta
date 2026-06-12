@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="it"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rometta Concorsi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght=300;400;500;600&amp;family=IBM+Plex+Mono:wght=400;500&amp;display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a1a;--ink2:#555;--ink3:#888;
+  --bg:#f7f6f3;--surface:#fff;--border:#ddd;--border2:#e8e6e1;
+  --accent:#1a3a6b;--accent-light:#e8eef7;
+  --green:#1e6641;--green-bg:#e8f5ee;
+  --red:#8b1c1c;--red-bg:#fdecea;
+  --amber:#7a5000;--amber-bg:#fef5e4;
+  --radius:6px;--radius-lg:10px;
+}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;min-height:100vh}
+h1{font-size:22px;font-weight:600;color:var(--ink)}
+h2{font-size:17px;font-weight:500;color:var(--ink);margin-bottom:1rem}
+h3{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:.5rem}
+p{color:var(--ink2);line-height:1.6}
+.mono{font-family:'IBM Plex Mono',monospace}
+#app{max-width:760px;margin:0 auto;padding:0 20px 60px}
+.topbar{border-bottom:1px solid var(--border);background:var(--surface);padding:0 20px;margin:0 -20px 32px;position:sticky;top:0;z-index:100}
+.topbar-inner{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:12px;height:54px}
+.logo-text{font-size:13px;font-weight:600;color:var(--accent);line-height:1.3;letter-spacing:.5px}
+.logo-sub{font-size:11px;font-weight:400;color:var(--ink3)}
+.tab-bar{display:flex;gap:0;margin-left:auto;border-left:1px solid var(--border2);padding-left:16px}
+.tab{padding:6px 14px;font-size:12px;font-weight:500;border:none;background:transparent;cursor:pointer;color:var(--ink3);border-bottom:2px solid transparent;font-family:'IBM Plex Sans',sans-serif;letter-spacing:.3px;transition:color .15s}
+.tab.active{color:var(--accent);border-bottom:2px solid var(--accent)}
+.tab:hover{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:16px}
+.field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:100px}
+label.lbl{font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px}
+input[type=text],input[type=number],input[type=date],input[type=password],textarea,select{
+  font-family:'IBM Plex Sans',sans-serif;font-size:13px;padding:8px 10px;
+  border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);
+  color:var(--ink);transition:border .15s;width:100%
+}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(26,58,107,.07)}
+textarea{resize:vertical;min-height:52px}
+.btn{font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;border-radius:var(--radius);cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--ink);transition:all .15s;display:inline-flex;align-items:center;gap:6px;line-height:1}
+.btn:hover{border-color:#bbb;background:#fafaf8}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:#162f58;border-color:#162f58}
+.btn-danger{color:var(--red);border-color:#f5b8b8;background:transparent}
+.btn-danger:hover{background:var(--red-bg)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hidden{display:none!important}
+.q-card{border:1px solid var(--border2);border-radius:var(--radius-lg);background:var(--surface);margin-bottom:12px;overflow:hidden}
+.q-head{background:#fafaf8;border-bottom:1px solid var(--border2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.q-num{font-size:11px;font-weight:500;color:var(--ink3);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px}
+.q-body{padding:14px 16px}
+.opt-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.opt-row input[type=radio]{width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.opt-row input[type=text]{background:#fafaf8}
+.exam-header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;margin-bottom:16px}
+.exam-header-left{display:flex;flex-direction:column;gap:4px}
+.exam-score-pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:11px;font-weight:500;padding:3px 9px;border-radius:12px;border:1px solid var(--border2);background:#fafaf8;color:var(--ink2)}
+.pill.green{background:var(--green-bg);border-color:#a8d8bb;color:var(--green)}
+.pill.red{background:var(--red-bg);border-color:#f0b0b0;color:var(--red)}
+.pill.gray{background:#f5f4f0;border-color:#ccc;color:var(--ink3)}
+.timer{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;padding:10px 16px;border:1px solid var(--border2);border-radius:var(--radius-lg);color:var(--ink);text-align:center;min-width:110px;background:var(--surface);transition:all .3s}
+.timer.warn{border-color:#f0c060;color:var(--amber);background:var(--amber-bg)}
+.timer.urgent{border-color:#e88;color:var(--red);background:var(--red-bg)}
+.prog-bar{height:3px;background:var(--border2);border-radius:2px;margin-bottom:24px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+.exam-q-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:20px;margin-bottom:12px}
+.exam-q-card.answered{border-color:#b8cce8}
+.q-text{font-size:15px;font-weight:400;color:var(--ink);margin-bottom:14px;line-height:1.6}
+.q-index{font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace;margin-bottom:6px}
+.opt-choice{width:100%;text-align:left;padding:10px 14px;margin-bottom:6px;border:1px solid var(--border2);background:#fafaf8;border-radius:var(--radius);cursor:pointer;font-size:13px;color:var(--ink);font-family:'IBM Plex Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:10px;line-height:1.4}
+.opt-choice:hover{background:#f0efeb;border-color:#ccc}
+.opt-choice.sel{background:var(--accent-light);border-color:var(--accent);color:var(--accent);font-weight:500}
+.opt-choice.abstain-sel{background:#f5f4f0;border-color:#bbb;color:var(--ink3);font-weight:500}
+.opt-badge{width:24px;height:24px;border-radius:50%;border:1px solid currentColor;opacity:.6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+.opt-choice.sel .opt-badge{background:var(--accent);border-color:var(--accent);color:#fff;opacity:1}
+.result-hero{text-align:center;padding:10px 16px 20px}
+.score-number{font-size:64px;font-weight:300;font-family:'IBM Plex Mono',monospace;color:var(--ink);line-height:1}
+.score-label{font-size:13px;color:var(--ink3);margin-top:4px}
+.esito-badge{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500;padding:7px 18px;border-radius:20px;margin-top:14px}
+.esito-pass{background:var(--green-bg);color:var(--green);border:1px solid #a8d8bb}
+.esito-fail{background:var(--red-bg);color:var(--red);border:1px solid #f0b0b0}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.stat-cell{border:1px solid var(--border2);border-radius:var(--radius);padding:12px;text-align:center;background:#fafaf8}
+.stat-val{font-size:26px;font-weight:500;font-family:'IBM Plex Mono',monospace;color:var(--ink)}
+.stat-lbl{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.divider{height:1px;background:var(--border2);margin:16px 0}
+.review-item{border:1px solid var(--border2);border-radius:var(--radius);padding:12px;margin-bottom:8px;page-break-inside:avoid;break-inside:avoid}
+.review-item.corr{border-color:#a8d8bb;background:var(--green-bg)}
+.review-item.err{border-color:#f0b0b0;background:var(--red-bg)}
+.review-item.oms{border-color:#ddd;background:#fafaf8}
+
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;padding:11px 20px;border-radius:20px;opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:9999;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#pin-overlay{position:fixed;inset:0;background:rgba(240,239,235,.92);z-index:999;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.pin-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:32px 36px;width:340px;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.pin-box h2{margin-bottom:4px}
+.pin-box p{font-size:13px;margin-bottom:20px}
+
+.verbale-header-print{display:none} 
+
+/* ── REGOLE STRETTAMENTE LIMITATE ALLA STAMPA ── */
+@media print{
+  @page{ size:A4 portrait; margin:20mm; }
+  html, body { background:#fff!important; color:#000!important; font-size:10px!important; margin:0!important; padding:0!important; }
+  #app{ padding:0!important; max-width:100%!important; margin:0 auto!important; }
+
+  /* Nascondi tutto tranne la view da stampare */
+  .topbar, .tab-bar, .no-print,
+  #pin-overlay, #pin-risultato-overlay,
+  #view-admin, #view-exam-start, #view-exam, #view-concluso,
+  #recupero-input-card, #ready-container { display:none!important; }
+
+  #view-result, #view-recupero { display:none!important; }
+  #view-result.print-target, #view-recupero.print-target { display:block!important; }
+
+  /* Intestazione compatta */
+  .verbale-header-print{
+    display:block!important;
+    text-align:center!important;
+    margin-bottom:8px!important;
+    padding-bottom:8px!important;
+    border-bottom:1.5px solid #000!important;
+  }
+  .verbale-header-print h1{ font-size:15px!important; font-weight:700!important; margin-bottom:3px!important; color:#000!important; }
+  .verbale-header-print p{ font-size:10px!important; color:#222!important; margin-bottom:1px!important; line-height:1.3!important; }
+
+  .card{ border:1px solid #ddd!important; padding:8px 12px!important; background:#fff!important; box-shadow:none!important; border-radius:4px!important; margin-bottom:6px!important; }
+
+  /* Punteggio compatto */
+  .result-hero{ padding:4px 0 6px!important; text-align:center!important; }
+  .score-number{ font-size:30px!important; line-height:1!important; }
+  .score-label{ font-size:9px!important; margin-top:1px!important; letter-spacing:.5px!important; }
+  .esito-badge{ font-size:10px!important; padding:3px 10px!important; margin-top:4px!important; }
+
+  /* Statistiche su una riga */
+  .divider{ margin:5px 0!important; height:1px!important; }
+  .stat-grid{ gap:6px!important; margin:5px 0!important; display:grid!important; grid-template-columns:repeat(3,1fr)!important; }
+  .stat-cell{ padding:5px 4px!important; border:1px solid #ddd!important; background:#fafafa!important; text-align:center!important; }
+  .stat-val{ font-size:16px!important; font-weight:600!important; }
+  .stat-lbl{ font-size:8px!important; margin-top:1px!important; }
+
+  /* Revisione risposte — sempre visibile in stampa anche se hidden a schermo */
+  #answer-review, #rec-answer-review{
+    display:block!important;
+    margin-top:6px!important;
+    columns:2!important;
+    column-gap:10px!important;
+  }
+  #answer-review h3, #rec-answer-review h3{
+    column-span:all!important;
+    font-size:10px!important; text-align:center!important;
+    margin-bottom:4px!important; padding-bottom:3px!important;
+    border-bottom:1px solid #ccc!important;
+  }
+  .review-item{
+    break-inside:avoid; page-break-inside:avoid;
+    display:block!important;
+    padding:4px 6px!important;
+    margin-bottom:4px!important;
+    border-radius:3px!important;
+    border:1px solid #ddd!important;
+  }
+  .review-item.corr{ background:#e8f5ee!important; border-color:#a8d8bb!important; }
+  .review-item.err{ background:#fdecea!important; border-color:#f0b0b0!important; }
+  .review-item.oms{ background:#fafaf8!important; border-color:#ddd!important; }
+  .review-item > div:first-child{ margin-bottom:1px!important; }
+  .review-item p{ font-size:9px!important; margin-bottom:1px!important; line-height:1.3!important; color:#000!important; }
+  .review-item span{ font-size:9px!important; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<div id="pin-overlay" class="">
+  <div class="pin-box">
+    <div style="width:36px;height:36px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+    </div>
+    <h2>Rometta Concorsi</h2>
+    <p>Inserisci il PIN per accedere al pannello amministratore.</p>
+    <div class="field" style="margin-bottom:14px">
+      <label class="lbl">PIN</label>
+      <input type="password" id="pin-input" placeholder="••••" style="letter-spacing:4px;font-size:18px;text-align:center" maxlength="8" onkeydown="if(event.key==='Enter')checkPin()">
+    </div>
+    <p id="pin-error" style="font-size:12px;color:var(--red);margin-bottom:10px;min-height:16px"></p>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="checkPin()">Accedi alla configurazione</button>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo-text">
+        Rometta Concorsi
+        <div class="logo-sub">Piattaforma Esami</div>
+      </div>
+      <!-- Elementi visibili solo durante l'esame -->
+      <div id="exam-topbar-info" class="hidden" style="display:none;align-items:center;gap:10px;margin-left:auto">
+        <span style="font-size:11px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px">Tempo residuo</span>
+        <div class="timer" id="exam-timer" style="font-size:18px;padding:4px 10px;min-width:72px">00:00</div>
+      </div>
+      <div class="tab-bar">
+        <button class="tab active" id="tab-admin" onclick="switchTab('admin')">Configurazione</button>
+        <button class="tab" id="tab-exam-start" onclick="switchTab('exam-start')">Avvia Esame</button>
+        <button class="tab" id="tab-recupero" onclick="switchTab('recupero')">Recupero Verbale</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-admin" class="view">
+    <div class="card">
+      <h2>Impostazioni Concorso</h2>
+      <div class="row">
+        <div class="field">
+          <label class="lbl">Ente / Comune</label>
+          <input type="text" id="cfg-comune" value="Comune di Rometta">
+        </div>
+        <div class="field">
+          <label class="lbl">Descrizione Concorso</label>
+          <input type="text" id="cfg-concorso" value="Concorso Pubblico per Esami">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label class="lbl">Data Esame</label>
+          <input type="date" id="cfg-data">
+        </div>
+        <div class="field">
+          <label class="lbl">Durata (minuti)</label>
+          <input type="number" id="cfg-durata" value="30" min="1">
+        </div>
+        <div class="field">
+          <label class="lbl">Punteggio Minimo Richiesto</label>
+          <input type="number" id="cfg-minimo" value="21" step="1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label class="lbl">Punti Risposta Esatta</label>
+          <input type="number" id="cfg-pt-esatta" value="3" step="1">
+        </div>
+        <div class="field">
+          <label class="lbl">Punti Risposta Errata</label>
+          <input type="number" id="cfg-pt-errata" value="0" step="1">
+        </div>
+        <div class="field">
+          <label class="lbl">Punti Risposta Omessa</label>
+          <input type="number" id="cfg-pt-omessa" value="0" step="1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label class="lbl">Codice Identificativo Candidato</label>
+          <input type="text" id="cfg-candidato-codice" value="CAND-001" placeholder="Es. CAND-4829">
+        </div>
+      </div>
+      
+      <div style="margin-top:16px;border-top:1px solid var(--border2);padding-top:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <label class="lbl" style="margin:0">Configurazioni Salvate</label>
+          <span style="font-size:11px;color:var(--ink3)">Attiva → è quella usata in Avvia Esame</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px" id="batterie-list">
+      <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--accent-light)">
+        <input type="text" value="Configurazione 1" onchange="rinominaBatteria(0, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        <span style="font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace">10 dom.</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-sm" id="btn-batt-carica-0" onclick="caricaFileInBatteria(0)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-attiva-0" onclick="attivaBatteria(0)" style="background:var(--green-bg);border-color:#a8d8bb;color:var(--green);font-weight:600;transition:all .2s">✓ Attiva</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
+        <input type="text" value="Configurazione 2" onchange="rinominaBatteria(1, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        <span style="font-size:11px;color:var(--ink3)">vuota</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-sm" id="btn-batt-carica-1" onclick="caricaFileInBatteria(1)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-attiva-1" onclick="attivaBatteria(1)" style="background:transparent;transition:all .2s" disabled="">Attiva</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
+        <input type="text" value="Configurazione 3" onchange="rinominaBatteria(2, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        <span style="font-size:11px;color:var(--ink3)">vuota</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-sm" id="btn-batt-carica-2" onclick="caricaFileInBatteria(2)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-attiva-2" onclick="attivaBatteria(2)" style="background:transparent;transition:all .2s" disabled="">Attiva</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
+        <input type="text" value="Configurazione 4" onchange="rinominaBatteria(3, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        <span style="font-size:11px;color:var(--ink3)">vuota</span>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-sm" id="btn-batt-carica-3" onclick="caricaFileInBatteria(3)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-attiva-3" onclick="attivaBatteria(3)" style="background:transparent;transition:all .2s" disabled="">Attiva</button>
+        </div>
+      </div></div>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn" id="btn-carica-config" onclick="triggerConfigUpload()">Carica da File</button>
+          <input type="file" id="config-file-input" class="hidden" accept=".json" onchange="loadConfiguration(event)">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:between;align-items:center;margin-bottom:1rem">
+        <h2 style="margin:0">Database Domande</h2>
+        <button class="btn" onclick="downloadConfiguration()">Scarica Configurazione</button>
+        <button class="btn" id="btn-scarica-html" style="margin-left:10px" onclick="aggiornaSelf()">Scarica HTML aggiornato</button>
+        <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="addQuestion()">+ Aggiungi Domanda</button>
+      </div>
+      <div id="questions-list">
+      <div class="q-card" id="q-card-0">
+        <div class="q-head">
+          <span class="q-num">QUESITO 01</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(0)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(0, this.value)">Qual è la capitale d'Italia?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-0" onchange="updateQCorrect(0, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Milano" placeholder="Opzione vuota..." onchange="updateQOption(0, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-0" checked="" onchange="updateQCorrect(0, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Roma" placeholder="Opzione vuota..." onchange="updateQOption(0, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-0" onchange="updateQCorrect(0, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Napoli" placeholder="Opzione vuota..." onchange="updateQOption(0, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-0" onchange="updateQCorrect(0, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(0, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-1">
+        <div class="q-head">
+          <span class="q-num">QUESITO 02</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(1)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(1, this.value)">Quanti mesi ha un anno?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-1" onchange="updateQCorrect(1, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="10" placeholder="Opzione vuota..." onchange="updateQOption(1, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-1" onchange="updateQCorrect(1, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="11" placeholder="Opzione vuota..." onchange="updateQOption(1, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-1" checked="" onchange="updateQCorrect(1, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="12" placeholder="Opzione vuota..." onchange="updateQOption(1, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-1" onchange="updateQCorrect(1, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(1, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-2">
+        <div class="q-head">
+          <span class="q-num">QUESITO 03</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(2)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(2, this.value)">Quale pianeta è il più vicino al Sole?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-2" onchange="updateQCorrect(2, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Venere" placeholder="Opzione vuota..." onchange="updateQOption(2, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-2" onchange="updateQCorrect(2, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Terra" placeholder="Opzione vuota..." onchange="updateQOption(2, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-2" checked="" onchange="updateQCorrect(2, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Mercurio" placeholder="Opzione vuota..." onchange="updateQOption(2, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-2" onchange="updateQCorrect(2, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(2, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-3">
+        <div class="q-head">
+          <span class="q-num">QUESITO 04</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(3)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(3, this.value)">Quanto fa 15 × 4?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-3" onchange="updateQCorrect(3, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="50" placeholder="Opzione vuota..." onchange="updateQOption(3, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-3" checked="" onchange="updateQCorrect(3, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="60" placeholder="Opzione vuota..." onchange="updateQOption(3, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-3" onchange="updateQCorrect(3, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="55" placeholder="Opzione vuota..." onchange="updateQOption(3, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-3" onchange="updateQCorrect(3, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(3, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-4">
+        <div class="q-head">
+          <span class="q-num">QUESITO 05</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(4)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(4, this.value)">In quale continente si trova il Brasile?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-4" onchange="updateQCorrect(4, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Africa" placeholder="Opzione vuota..." onchange="updateQOption(4, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-4" onchange="updateQCorrect(4, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Asia" placeholder="Opzione vuota..." onchange="updateQOption(4, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-4" checked="" onchange="updateQCorrect(4, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="America del Sud" placeholder="Opzione vuota..." onchange="updateQOption(4, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-4" onchange="updateQCorrect(4, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(4, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-5">
+        <div class="q-head">
+          <span class="q-num">QUESITO 06</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(5)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(5, this.value)">Quanti lati ha un esagono?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-5" onchange="updateQCorrect(5, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="5" placeholder="Opzione vuota..." onchange="updateQOption(5, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-5" onchange="updateQCorrect(5, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="7" placeholder="Opzione vuota..." onchange="updateQOption(5, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-5" checked="" onchange="updateQCorrect(5, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="6" placeholder="Opzione vuota..." onchange="updateQOption(5, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-5" onchange="updateQCorrect(5, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(5, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-6">
+        <div class="q-head">
+          <span class="q-num">QUESITO 07</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(6)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(6, this.value)">Chi ha dipinto la Gioconda?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-6" onchange="updateQCorrect(6, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Michelangelo" placeholder="Opzione vuota..." onchange="updateQOption(6, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-6" checked="" onchange="updateQCorrect(6, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Leonardo da Vinci" placeholder="Opzione vuota..." onchange="updateQOption(6, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-6" onchange="updateQCorrect(6, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Raffaello" placeholder="Opzione vuota..." onchange="updateQOption(6, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-6" onchange="updateQCorrect(6, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(6, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-7">
+        <div class="q-head">
+          <span class="q-num">QUESITO 08</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(7)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(7, this.value)">Qual è la formula chimica dell'acqua?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-7" onchange="updateQCorrect(7, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="CO2" placeholder="Opzione vuota..." onchange="updateQOption(7, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-7" checked="" onchange="updateQCorrect(7, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="H2O" placeholder="Opzione vuota..." onchange="updateQOption(7, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-7" onchange="updateQCorrect(7, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="O2" placeholder="Opzione vuota..." onchange="updateQOption(7, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-7" onchange="updateQCorrect(7, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(7, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-8">
+        <div class="q-head">
+          <span class="q-num">QUESITO 09</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(8)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(8, this.value)">In quale anno è terminata la Seconda Guerra Mondiale?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-8" onchange="updateQCorrect(8, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="1943" placeholder="Opzione vuota..." onchange="updateQOption(8, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-8" onchange="updateQCorrect(8, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="1918" placeholder="Opzione vuota..." onchange="updateQOption(8, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-8" checked="" onchange="updateQCorrect(8, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="1945" placeholder="Opzione vuota..." onchange="updateQOption(8, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-8" onchange="updateQCorrect(8, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(8, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-9">
+        <div class="q-head">
+          <span class="q-num">QUESITO 10</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(9)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(9, this.value)">Quale organo del corpo umano pompa il sangue?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-9" onchange="updateQCorrect(9, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Polmone" placeholder="Opzione vuota..." onchange="updateQOption(9, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-9" onchange="updateQCorrect(9, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Fegato" placeholder="Opzione vuota..." onchange="updateQOption(9, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-9" checked="" onchange="updateQCorrect(9, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Cuore" placeholder="Opzione vuota..." onchange="updateQOption(9, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-9" onchange="updateQCorrect(9, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(9, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <div id="view-exam-start" class="view hidden">
+    <div class="card" style="text-align:center;padding:40px 20px">
+      <h1 id="start-comune" style="margin-bottom:4px">Comune di Rometta</h1>
+      <p id="start-concorso" style="font-size:16px;color:var(--ink2);margin-bottom:24px">Concorso Pubblico per Esami</p>
+      
+      <div style="max-width:400px;margin:0 auto 32px;text-align:left;background:#fafaf8;border:1px solid var(--border2);border-radius:var(--radius);padding:16px 20px">
+        <div style="display:flex;justify-content:between;margin-bottom:8px;font-size:13px">
+          <span style="color:var(--ink3)">Data Sessione:</span>
+          <strong id="start-info-data" style="margin-left:auto">11/06/2026</strong>
+        </div>
+        <div style="display:flex;justify-content:between;margin-bottom:8px;font-size:13px">
+          <span style="color:var(--ink3)">Tempo a disposizione:</span>
+          <strong id="start-info-durata" style="margin-left:auto">30 minuti</strong>
+        </div>
+        <div style="display:flex;justify-content:between;margin-bottom:8px;font-size:13px">
+          <span style="color:var(--ink3)">Numero quesiti:</span>
+          <strong id="start-info-tot" style="margin-left:auto">10</strong>
+        </div>
+        <div style="display:flex;justify-content:between;margin-bottom:8px;font-size:13px">
+          <span style="color:var(--ink3)">Soglia idoneità:</span>
+          <strong id="start-info-soglia" style="margin-left:auto">21 punti</strong>
+        </div>
+        <div style="display:flex;justify-content:between;font-size:13px;padding-top:8px;border-top:1px dashed var(--border);">
+          <span style="color:var(--ink3)">Codice Identificativo Candidato:</span>
+          <strong id="start-info-candidato" style="margin-left:auto;color:var(--accent)">CAND-001</strong>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" style="font-size:15px;padding:12px 32px;border-radius:30px" onclick="startExam()">
+        Avvia Prova Esame
+      </button>
+      <p id="start-error-msg" style="display:none;margin-top:16px;font-size:13px;color:var(--red);background:var(--red-bg);border:1px solid #f0b0b0;border-radius:var(--radius);padding:10px 16px">
+        ⚠ Impossibile avviare l'esame: non ci sono domande compilate nel database.
+      </p>
+    </div>
+  </div>
+
+  <div id="view-exam" class="view hidden">
+    <div id="exam-sticky-bar" class="hidden" style="position: sticky; top: 54px; z-index: 99; background: var(--surface); border-bottom: 1px solid var(--border2); margin: 0px -20px; padding: 6px 20px 7px; display: none; align-items: center; gap: 12px;">
+      <div class="prog-bar" style="flex:1;margin:0;height:5px;border-radius:3px;background:var(--border2)">
+        <div class="prog-fill" id="exam-prog-fill" style="width:0%;height:100%;border-radius:3px"></div>
+      </div>
+      <span style="font-size:12px;font-weight:500;color:var(--ink3);font-family:'IBM Plex Mono',monospace;white-space:nowrap"><strong id="exam-progress-pills" style="color:var(--accent)">0</strong>/<span id="exam-tot-lbl">0</span></span>
+    </div>
+    <div id="exam-candidate-row" style="display:none;margin-top:8px;margin-bottom:4px">
+      <span class="pill">Candidato: <strong id="exam-candidate-lbl">—</strong></span>
+    </div>
+
+    <div id="ready-container" class="card" style="text-align:center; padding:50px 20px; margin-top:24px;">
+      <h2 style="font-size:20px; margin-bottom:12px; color:var(--accent)">Postazione Configurata con Successo</h2>
+      <p style="font-size:14px; color:var(--ink2); margin-bottom:30px;">
+        Il sistema è bloccato in modalità sicura a schermo intero.<br>
+        Le domande compariranno e il timer inizierà il conto alla rovescia solo dopo aver premuto il pulsante sottostante.
+      </p>
+      <button class="btn btn-primary" style="font-size:16px; padding:14px 40px; border-radius:30px; font-weight:600; box-shadow:0 4px 12px rgba(26,58,107,0.2)" onclick="effettivoInizioEsame()">
+        Inizia la Prova Ora
+      </button>
+    </div>
+
+    <div id="exam-real-content" class="hidden">
+      <div id="exam-questions-container"></div>
+
+      <div class="card" style="display:flex;justify-content:center;gap:12px;margin-top:24px">
+        <button class="btn btn-primary" id="btn-consegna" onclick="primaConsegna()">Consegna e Termina Esame</button>
+        <button class="btn hidden" id="btn-conferma-consegna" onclick="terminaEsame()" style="background:#8b1c1c;color:#fff;border-color:#8b1c1c;font-weight:600">✔ Conferma Consegna</button>
+        <button class="btn hidden" id="btn-annulla-consegna" onclick="annullaConsegna()">Annulla</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-concluso" class="view hidden">
+    <div class="card" style="text-align:center;padding:60px 20px 50px">
+      <div style="width:64px;height:64px;background:var(--green-bg);border:2px solid #a8d8bb;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      </div>
+      <h1 style="font-size:26px;margin-bottom:12px;color:var(--ink)">Esame concluso</h1>
+      <p style="font-size:16px;color:var(--ink2);margin-bottom:8px">Grazie per aver partecipato.</p>
+      <p style="font-size:13px;color:var(--ink3);margin-bottom:40px">Il tuo foglio risposte è stato consegnato. Attendi le istruzioni del responsable di sala.</p>
+      <button class="btn btn-primary" style="font-size:14px;padding:10px 28px" onclick="richiestaVisualizzaRisultato()">
+        🔐 Visualizza Risultato
+      </button>
+    </div>
+  </div>
+
+  <div id="pin-risultato-overlay" class="hidden" style="position:fixed;inset:0;background:rgba(240,239,235,.95);z-index:998;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+    <div class="pin-box">
+      <div style="width:36px;height:36px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      </div>
+      <h2>Accesso riservato</h2>
+      <p>Inserisci il PIN commissione per visualizzare il risultato.</p>
+      <div class="field" style="margin-bottom:14px">
+        <label class="lbl">PIN</label>
+        <input type="password" id="pin-risultato-input" placeholder="••••" style="letter-spacing:4px;font-size:18px;text-align:center" maxlength="8" onkeydown="if(event.key==='Enter')checkPinRisultato()">
+      </div>
+      <p id="pin-risultato-error" style="font-size:12px;color:var(--red);margin-bottom:10px;min-height:16px"></p>
+      <div style="display:flex;gap:8px">
+        <button class="btn" style="flex:1;justify-content:center" onclick="chiudiPinRisultato()">Annulla</button>
+        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="checkPinRisultato()">Accedi</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-result" class="view hidden">
+    <div class="verbale-header-print">
+      <h1 id="verb-comune">COMUNE DI ROMETTA</h1>
+      <p id="verb-concorso">Concorso Pubblico per Esami</p>
+      <p id="verb-data">Data sessione: —</p>
+      <p style="margin-top:6px"><strong>Codice Identificativo Candidato:</strong> <span id="res-candidato" style="font-weight:700">—</span></p>
+      <p style="font-size:11px;margin-top:2px"><strong>Criteri di Valutazione:</strong> Risposta corretta: <span id="res-crit-esatta">+1</span> pt | Errata: <span id="res-crit-errata">0</span> pt | Omessa: <span id="res-crit-omessa">0</span> pt. Punteggio Minimo Richiesto: <span id="res-crit-min">21</span> pt.</p>
+    </div>
+
+    <div class="card">
+      <div class="btn-print-row no-print" style="display:flex;justify-content:flex-end;margin-bottom:10px">
+        <button class="btn btn-sm" onclick="window.print()">🖨️ Stampa Verbale</button>
+      </div>
+
+      <div class="result-hero">
+        <div class="score-number" id="res-voto">0</div>
+        <div class="score-label">PUNTEGGIO TOTALE CONSEGUITO</div>
+        <div id="res-badge-container"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <div class="stat-val" id="res-esatte" style="color:var(--green)">0</div>
+          <div class="stat-lbl">Esatte</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val" id="res-errate" style="color:var(--red)">0</div>
+          <div class="stat-lbl">Errate</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-val" id="res-omesse" style="color:var(--amber)">0</div>
+          <div class="stat-lbl">Omesse</div>
+        </div>
+      </div>
+
+      <div class="no-print" style="font-size:13px;color:var(--ink2);background:#fafaf8;border:1px solid var(--border2);border-radius:var(--radius);padding:14px 16px;margin-top:16px;text-align:center;">
+        <p style="margin-bottom:4px;font-size:14px"><strong>Codice Identificativo Candidato:</strong> <span style="color:var(--accent);font-weight:600" id="res-candidato-screen">—</span></p>
+        <p style="font-size:11px;color:var(--ink3)"><strong>Criteri di Valutazione:</strong> Risposta corretta: <span id="res-crit-esatta-screen">+1</span> pt | Errata: <span id="res-crit-errata-screen">0</span> pt | Omessa: <span id="res-crit-omessa-screen">0</span> pt. Punteggio Minimo Richiesto: <span id="res-crit-min-screen">21</span> pt.</p>
+      </div>
+
+      <div class="no-print" style="margin-top:20px;text-align:center">
+        <button class="btn btn-sm" onclick="toggleReview()">Mostra / Nascondi Correzione Quesiti</button>
+      </div>
+
+      <div id="answer-review" class="hidden" style="margin-top:24px">
+        <h3 style="margin-bottom:12px; border-bottom:1px solid var(--border2); padding-bottom:6px">Revisione delle Risposte Corrette</h3>
+        <div id="review-list"></div>
+      </div>
+
+      <div id="sorveglianza-block" style="margin-top:14px;border:1px solid var(--border2);border-radius:var(--radius);padding:8px 12px;background:#fafaf8;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:10px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-right:4px">Eventi sessione:</span>
+        <span id="sorv-cell-fs" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--border2);border-radius:4px;padding:3px 8px;background:var(--surface)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px" id="sorv-fullscreen">0</span>
+          <span style="color:var(--ink3)">uscite fullscreen</span>
+        </span>
+        <span id="sorv-cell-sc" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--border2);border-radius:4px;padding:3px 8px;background:var(--surface)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px" id="sorv-scheda">0</span>
+          <span style="color:var(--ink3)">cambio scheda</span>
+        </span>
+        <span id="sorv-cell-fo" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--border2);border-radius:4px;padding:3px 8px;background:var(--surface)">
+          <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px" id="sorv-focus">0</span>
+          <span style="color:var(--ink3)">perdite focus</span>
+        </span>
+      </div>
+
+      <div class="no-print" style="margin-top:32px;display:flex;justify-content:center">
+        <button class="btn btn-primary" onclick="newExam()">Torna Home</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-recupero" class="view hidden">
+    <div class="card" id="recupero-input-card">
+      <h2>Recupero Verbale da Backup</h2>
+      <p style="margin-bottom:20px;font-size:13px">Seleziona il file di backup scaricato automaticamente al termine dell'esame per visualizzare il verbale completo pronto per la stampa.</p>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="document.getElementById('recupero-file-input').click()">
+          📂 Carica file verbale
+        </button>
+        <span id="recupero-filename" style="font-size:12px;color:var(--ink3);font-family:'IBM Plex Mono',monospace"></span>
+        <input type="file" id="recupero-file-input" class="hidden" onchange="caricaFileBackup(event)">
+      </div>
+      <p id="recupero-error" style="font-size:12px;color:var(--red);margin-top:12px;min-height:16px"></p>
+    </div>
+
+    <div id="recupero-result-card" class="hidden">
+      <div class="verbale-header-print" style="display:block;text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--ink)">
+        <h1 id="rec-verb-comune" style="font-size:24px;font-weight:700;margin-bottom:4px"></h1>
+        <p id="rec-verb-concorso" style="font-size:13px;color:#222;margin-bottom:2px"></p>
+        <p id="rec-verb-data" style="font-size:13px;color:#222"></p>
+        <p style="margin-top:6px;font-size:13px;color:#222"><strong>Codice Identificativo Candidato:</strong> <span id="rec-res-candidato" style="font-weight:700">—</span></p>
+        <p style="font-size:11px;color:#444;margin-top:2px"><strong>Criteri di Valutazione:</strong> Risposta corretta: <span id="rec-crit-esatta">+1</span> pt | Errata: <span id="rec-crit-errata">0</span> pt | Omessa: <span id="rec-crit-omessa">0</span> pt. Punteggio Minimo Richiesto: <span id="rec-crit-min">21</span> pt.</p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px" class="no-print">
+          <button class="btn btn-sm" onclick="tornaInputRecupero()">← Nuovo recupero</button>
+          <button class="btn btn-sm" onclick="window.print()">🖨️ Stampa Verbale</button>
+        </div>
+
+        <div class="result-hero">
+          <div class="score-number" id="rec-res-voto">0</div>
+          <div class="score-label">PUNTEGGIO TOTALE CONSEGUITO</div>
+          <div id="rec-res-badge-container"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="stat-grid">
+          <div class="stat-cell">
+            <div class="stat-val" id="rec-res-esatte" style="color:var(--green)">0</div>
+            <div class="stat-lbl">Esatte</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-val" id="rec-res-errate" style="color:var(--red)">0</div>
+            <div class="stat-lbl">Errate</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-val" id="rec-res-omesse" style="color:var(--amber)">0</div>
+            <div class="stat-lbl">Omesse</div>
+          </div>
+        </div>
+
+        <div class="no-print" style="font-size:13px;color:var(--ink2);background:#fafaf8;border:1px solid var(--border2);border-radius:var(--radius);padding:14px 16px;margin-top:16px;text-align:center;">
+          <p style="margin-bottom:4px;font-size:14px"><strong>Codice Identificativo Candidato:</strong> <span id="rec-res-candidato-screen" style="color:var(--accent);font-weight:600">—</span></p>
+          <p style="font-size:11px;color:var(--ink3)"><strong>Criteri di Valutazione:</strong> Risposta corretta: <span id="rec-crit-esatta-screen">+1</span> pt | Errata: <span id="rec-crit-errata-screen">0</span> pt | Omessa: <span id="rec-crit-omessa-screen">0</span> pt. Punteggio Minimo Richiesto: <span id="rec-crit-min-screen">21</span> pt.</p>
+        </div>
+
+        <div class="no-print" style="margin-top:20px;text-align:center">
+          <button class="btn btn-sm" onclick="toggleRecuperoReview()">Mostra / Nascondi Correzione Quesiti</button>
+        </div>
+
+        <div id="rec-answer-review" class="hidden" style="margin-top:24px">
+          <h3 style="margin-bottom:12px;border-bottom:1px solid var(--border2);padding-bottom:6px">Revisione delle Risposte Corrette</h3>
+          <div id="rec-review-list"></div>
+        </div>
+
+        <div id="rec-sorveglianza-block" style="margin-top:14px;border:1px solid var(--border2);border-radius:var(--radius);padding:8px 12px;background:#fafaf8;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <span style="font-size:10px;font-weight:500;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-right:4px">Eventi sessione:</span>
+          <span id="rec-sorv-cell-fs" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--border2);border-radius:4px;padding:3px 8px;background:var(--surface)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px" id="rec-sorv-fullscreen">—</span>
+            <span style="color:var(--ink3)">uscite fullscreen</span>
+          </span>
+          <span id="rec-sorv-cell-sc" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--border2);border-radius:4px;padding:3px 8px;background:var(--surface)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px" id="rec-sorv-scheda">—</span>
+            <span style="color:var(--ink3)">cambio scheda</span>
+          </span>
+          <span id="rec-sorv-cell-fo" style="display:inline-flex;align-items:center;gap:5px;font-size:11px;border:1px solid var(--border2);border-radius:4px;padding:3px 8px;background:var(--surface)">
+            <span style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px" id="rec-sorv-focus">—</span>
+            <span style="color:var(--ink3)">perdite focus</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Stato dell'applicazione ─────────────────────────────────────────────────
+let pinCorretto = "1234";
+let autenticato = false;
+let esameAvviato = false;
+let pendingTab = null; 
+
+let configurazione = {
+  comune: "Comune di Rometta",
+  concorso: "Concorso Pubblico per Esami",
+  data: new Date().toISOString().split('T')[0],
+  durata: 60,
+  minimo: 21,
+  ptEsatta: 1,
+  ptErrata: 0,
+  ptOmessa: 0,
+  candidatoCodice: "CAND-001"
+};
+
+let domande = Array.from({ length: 10 }, () => ({
+  text: "",
+  options: ["", "", "", ""],
+  correct: 0
+}));
+
+let answers = {};
+let timerInt = null;
+let tempoRimanente = 0;
+let eventiSospetti = { fullscreen: 0, scheda: 0, focus: 0 };
+function resetEventiSospetti() { eventiSospetti = { fullscreen: 0, scheda: 0, focus: 0 }; }
+
+// ── Configurazioni Salvate ───────────────────────────────────────────────────
+let batterieInterne = /*BATTERIE_INTERNE*/[{"nome":"Configurazione 1","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-11","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"CAND-001"},"domande":[{"text":"Qual è la capitale d'Italia?","options":["Milano","Roma","Napoli",""],"correct":1},{"text":"Quanti mesi ha un anno?","options":["10","11","12",""],"correct":2},{"text":"Quale pianeta è il più vicino al Sole?","options":["Venere","Terra","Mercurio",""],"correct":2},{"text":"Quanto fa 15 × 4?","options":["50","60","55",""],"correct":1},{"text":"In quale continente si trova il Brasile?","options":["Africa","Asia","America del Sud",""],"correct":2},{"text":"Quanti lati ha un esagono?","options":["5","7","6",""],"correct":2},{"text":"Chi ha dipinto la Gioconda?","options":["Michelangelo","Leonardo da Vinci","Raffaello",""],"correct":1},{"text":"Qual è la formula chimica dell'acqua?","options":["CO2","H2O","O2",""],"correct":1},{"text":"In quale anno è terminata la Seconda Guerra Mondiale?","options":["1943","1918","1945",""],"correct":2},{"text":"Quale organo del corpo umano pompa il sangue?","options":["Polmone","Fegato","Cuore",""],"correct":2}]},"attiva":true},{"nome":"Configurazione 2","dati":null,"attiva":false},{"nome":"Configurazione 3","dati":null,"attiva":false},{"nome":"Configurazione 4","dati":null,"attiva":false}]/*FINE_BATTERIE_INTERNE*/;
+
+function renderBatterie() {
+  const container = document.getElementById('batterie-list');
+  container.innerHTML = batterieInterne.map((b, i) => {
+    const hasDati = b.dati !== null;
+    const info = hasDati
+      ? `<span style="font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace">${b.dati.domande ? b.dati.domande.filter(d=>d.text).length : 0} dom.</span>`
+      : `<span style="font-size:11px;color:var(--ink3)">vuota</span>`;
+    const attivaStyle = b.attiva
+      ? 'background:var(--green-bg);border-color:#a8d8bb;color:var(--green);font-weight:600'
+      : 'background:transparent';
+    const attivaLabel = b.attiva ? '✓ Attiva' : 'Attiva';
+    return `
+      <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:${b.attiva ? 'var(--accent-light)' : '#fafaf8'}">
+        <input type="text" value="${b.nome}" onchange="rinominaBatteria(${i}, this.value)"
+          style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        ${info}
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="btn btn-sm" id="btn-batt-carica-${i}" onclick="caricaFileInBatteria(${i})">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-attiva-${i}" onclick="attivaBatteria(${i})" style="${attivaStyle};transition:all .2s" ${hasDati?'':'disabled style="opacity:.4;cursor:default"'}>${attivaLabel}</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function rinominaBatteria(i, nome) {
+  batterieInterne[i].nome = nome || ('Configurazione ' + (i + 1));
+}
+
+// Carica un file JSON esterno DENTRO uno slot specifico (non lo attiva automaticamente)
+let batteriaUploadTarget = null;
+function caricaFileInBatteria(i) {
+  batteriaUploadTarget = i;
+  document.getElementById('config-file-input').click();
+}
+
+function attivaBatteria(i) {
+  const b = batterieInterne[i];
+  if (!b.dati) return;
+  batterieInterne.forEach((x, idx) => x.attiva = (idx === i));
+  applicaConfigurazioneAttiva();
+  renderBatterie();
+}
+
+// Applica la configurazione/domande della batteria marcata come attiva alle variabili globali
+function applicaConfigurazioneAttiva() {
+  const attiva = batterieInterne.find(b => b.attiva && b.dati);
+  if (!attiva) return;
+  if (attiva.dati.configurazione) {
+    configurazione = { ...configurazione, ...attiva.dati.configurazione };
+    updateConfigForm();
+  }
+  if (attiva.dati.domande) {
+    domande = attiva.dati.domande;
+    renderQuestions();
+  }
+  if (attiva.dati.pin) pinCorretto = attiva.dati.pin;
+  updatePreExamInfo();
+}
+
+function aggiornaSelf() {
+  readConfigForm();
+  // Sincronizza lo stato corrente nella batteria attiva, se ce n'è una
+  const attivaIdx = batterieInterne.findIndex(b => b.attiva);
+  if (attivaIdx !== -1) {
+    batterieInterne[attivaIdx].dati = {
+      pin: pinCorretto,
+      configurazione: { ...configurazione },
+      domande: JSON.parse(JSON.stringify(domande))
+    };
+  }
+  const replacement = '/*BATTERIE_INTERNE*/' + JSON.stringify(batterieInterne) + '/*FINE_BATTERIE_INTERNE*/';
+
+  // Clona il documento e ripristina lo stato iniziale (login, tab, view) prima di serializzare
+  const clone = document.documentElement.cloneNode(true);
+
+  // Overlay PIN visibile
+  const pinOverlay = clone.querySelector('#pin-overlay');
+  if (pinOverlay) pinOverlay.classList.remove('hidden');
+  const pinRisultatoOverlay = clone.querySelector('#pin-risultato-overlay');
+  if (pinRisultatoOverlay) pinRisultatoOverlay.classList.add('hidden');
+
+  // Topbar: tab-bar visibile, info esame nascosta
+  const tabBar = clone.querySelector('.topbar-inner .tab-bar');
+  if (tabBar) tabBar.style.display = '';
+  const examTopbarInfo = clone.querySelector('#exam-topbar-info');
+  if (examTopbarInfo) { examTopbarInfo.classList.add('hidden'); examTopbarInfo.style.display = 'none'; }
+  const examStickyBar = clone.querySelector('#exam-sticky-bar');
+  if (examStickyBar) { examStickyBar.classList.add('hidden'); examStickyBar.style.display = 'none'; }
+
+  // Tab: solo "Configurazione" attiva
+  clone.querySelectorAll('.tab-bar .tab').forEach(t => t.classList.remove('active'));
+  const tabAdmin = clone.querySelector('#tab-admin');
+  if (tabAdmin) tabAdmin.classList.add('active');
+
+  // View: solo view-admin visibile
+  clone.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  const viewAdmin = clone.querySelector('#view-admin');
+  if (viewAdmin) viewAdmin.classList.remove('hidden');
+
+  // Input PIN azzerato
+  clone.querySelectorAll('#pin-overlay input').forEach(inp => inp.removeAttribute('value'));
+
+  let src = '<!DOCTYPE html>\n' + clone.outerHTML;
+  src = src.replace(/\/\*BATTERIE_INTERNE\*\/[\s\S]*?\/\*FINE_BATTERIE_INTERNE\*\//, replacement);
+  const blob = new Blob([src], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'index.html';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  flashBtn('btn-scarica-html', 'Scaricato!');
+}
+
+document.getElementById('cfg-data').value = configurazione.data;
+
+// ── Gestione PIN ───────────────────────────────────────────────────────────
+function checkPin() {
+  const input = document.getElementById('pin-input').value;
+  if (input === pinCorretto) {
+    autenticato = true;
+    document.getElementById('pin-overlay').classList.add('hidden');
+    document.getElementById('pin-error').innerText = "";
+    document.getElementById('pin-input').value = "";
+    if (pendingTab) {
+      const t = pendingTab;
+      pendingTab = null;
+      switchTab(t);
+    }
+  } else {
+    document.getElementById('pin-error').innerText = "PIN errato. Riprova.";
+  }
+}
+
+// ── Gestione Navigazione Tab ────────────────────────────────────────────────
+function switchTab(target) {
+  if ((target === 'admin' || target === 'recupero') && esameAvviato && target === 'admin') {
+    autenticato = false;
+    document.getElementById('pin-overlay').classList.remove('hidden');
+  }
+  if (target === 'admin' && esameAvviato) {
+    autenticato = false;
+    document.getElementById('pin-overlay').classList.remove('hidden');
+  }
+  if (target === 'recupero' && !autenticato) {
+    pendingTab = 'recupero';
+    autenticato = false;
+    document.getElementById('pin-overlay').classList.remove('hidden');
+    return;
+  }
+
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v => {
+    v.classList.add('hidden');
+    v.classList.remove('print-target');
+  });
+
+  if (target === 'admin') {
+    document.getElementById('tab-admin').classList.add('active');
+    document.getElementById('view-admin').classList.remove('hidden');
+  } else if (target === 'exam-start') {
+    updatePreExamInfo();
+    document.getElementById('tab-exam-start').classList.add('active');
+    document.getElementById('view-exam-start').classList.remove('hidden');
+  } else if (target === 'recupero') {
+    document.getElementById('tab-recupero').classList.add('active');
+    const vr = document.getElementById('view-recupero');
+    vr.classList.remove('hidden');
+    vr.classList.add('print-target');
+  }
+}
+
+function switchView(viewId) {
+  document.querySelectorAll('.view').forEach(v => {
+    v.classList.add('hidden');
+    v.classList.remove('print-target');
+  });
+  const el = document.getElementById('view-' + viewId);
+  if (el) {
+    el.classList.remove('hidden');
+    el.classList.add('print-target');
+  }
+}
+
+// ── Gestione Configurazione ──
+function readConfigForm() {
+  configurazione.comune = document.getElementById('cfg-comune').value;
+  configurazione.concorso = document.getElementById('cfg-concorso').value;
+  configurazione.data = document.getElementById('cfg-data').value;
+  configurazione.durata = Math.round(parseInt(document.getElementById('cfg-durata').value)) || 60;
+  
+  configurazione.minimo = Math.round(parseFloat(document.getElementById('cfg-minimo').value)) || 21;
+  configurazione.ptEsatta = Math.round(parseFloat(document.getElementById('cfg-pt-esatta').value)) || 1;
+  configurazione.ptErrata = Math.round(parseFloat(document.getElementById('cfg-pt-errata').value)) || 0;
+  configurazione.ptOmessa = Math.round(parseFloat(document.getElementById('cfg-pt-omessa').value)) || 0;
+  configurazione.candidatoCodice = document.getElementById('cfg-candidato-codice').value;
+}
+
+function updateConfigForm() {
+  document.getElementById('cfg-comune').value = configurazione.comune;
+  document.getElementById('cfg-concorso').value = configurazione.concorso;
+  document.getElementById('cfg-data').value = configurazione.data;
+  document.getElementById('cfg-durata').value = configurazione.durata;
+  document.getElementById('cfg-minimo').value = configurazione.minimo;
+  document.getElementById('cfg-pt-esatta').value = configurazione.ptEsatta;
+  document.getElementById('cfg-pt-errata').value = configurazione.ptErrata;
+  document.getElementById('cfg-pt-omessa').value = configurazione.ptOmessa;
+  document.getElementById('cfg-candidato-codice').value = configurazione.candidatoCodice;
+}
+
+function flashBtn(id, successLabel) {
+  const btn = document.getElementById(id);
+  const original = btn.innerText;
+  btn.style.minWidth = btn.offsetWidth + 'px';
+  btn.innerText = '✓ ' + successLabel;
+  btn.style.background = 'var(--green-bg)';
+  btn.style.borderColor = '#a8d8bb';
+  btn.style.color = 'var(--green)';
+  btn.style.transition = 'all .3s';
+  setTimeout(() => {
+    btn.innerText = original;
+    btn.style.minWidth = '';
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  }, 2000);
+}
+
+function showToast(msg, duration = 3500) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+function saveInLocale() { readConfigForm(); }
+
+function downloadConfiguration() {
+  readConfigForm();
+  const exportData = { pin: pinCorretto, configurazione: configurazione, domande: domande };
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", "configurazione_concorso.json");
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+}
+
+function triggerConfigUpload() { batteriaUploadTarget = null; document.getElementById('config-file-input').click(); }
+
+function loadConfiguration(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const importedData = JSON.parse(e.target.result);
+      if (importedData.configurazione && importedData.domande) {
+        importedData.configurazione.minimo = Math.round(importedData.configurazione.minimo);
+        importedData.configurazione.ptEsatta = Math.round(importedData.configurazione.ptEsatta);
+        importedData.configurazione.ptErrata = Math.round(importedData.configurazione.ptErrata);
+        importedData.configurazione.ptOmessa = Math.round(importedData.configurazione.ptOmessa);
+
+        if (batteriaUploadTarget !== null) {
+          // Caricamento dentro uno slot specifico tramite pulsante "Carica" di una configurazione salvata
+          const i = batteriaUploadTarget;
+          batterieInterne[i].dati = {
+            pin: importedData.pin || pinCorretto,
+            configurazione: importedData.configurazione,
+            domande: importedData.domande
+          };
+          if (!batterieInterne[i].nome || /^Configurazione \d$/.test(batterieInterne[i].nome) === false) {
+            // mantiene il nome esistente se è stato personalizzato
+          }
+          flashBtn(`btn-batt-carica-${i}`, 'Caricata!');
+          renderBatterie();
+        } else {
+          // Caricamento da file esterno: aggiorna direttamente la configurazione attiva in uso
+          if (importedData.pin) pinCorretto = importedData.pin;
+          configurazione = importedData.configurazione;
+          domande = importedData.domande;
+          updateConfigForm();
+          renderQuestions();
+          updatePreExamInfo();
+        }
+        batteriaUploadTarget = null;
+      }
+    } catch (err) {}
+  };
+  reader.readAsText(file);
+  event.target.value = ""; 
+}
+
+function updatePreExamInfo() {
+  readConfigForm();
+  document.getElementById('start-comune').innerText = configurazione.comune;
+  document.getElementById('start-concorso').innerText = configurazione.concorso;
+  const dStr = configurazione.data ? new Date(configurazione.data).toLocaleDateString('it-IT') : 'Non stabilita';
+  document.getElementById('start-info-data').innerText = dStr;
+  document.getElementById('start-info-durata').innerText = configurazione.durata + " minuti";
+  document.getElementById('start-info-tot').innerText = domandeValide().length;
+  document.getElementById('start-info-soglia').innerText = configurazione.minimo + " punti";
+  document.getElementById('start-info-candidato').innerText = configurazione.candidatoCodice || "Non impostato";
+}
+
+// ── CRUD Domande Amministratore ─────────────────────────────────────────────
+function renderQuestions() {
+  const container = document.getElementById('questions-list');
+  if(domande.length === 0) {
+    container.innerHTML = `<p style="text-align:center;color:var(--ink3);padding:20px">Nessuna domanda presente. Aggiungine una.</p>`;
+    return;
+  }
+  container.innerHTML = domande.map((q, qIdx) => {
+    return `
+      <div class="q-card" id="q-card-${qIdx}">
+        <div class="q-head">
+          <span class="q-num">QUESITO ${String(qIdx+1).padStart(2, '0')}</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(${qIdx})">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(${qIdx}, this.value)">${q.text}</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          ${q.options.map((opt, oIdx) => {
+            const letters = ['A', 'B', 'C', 'D'];
+            return `
+              <div class="opt-row">
+                <input type="radio" name="correct-${qIdx}" ${q.correct === oIdx ? 'checked' : ''} onchange="updateQCorrect(${qIdx}, ${oIdx})">
+                <span class="mono" style="font-size:12px;width:14px">${letters[oIdx]}</span>
+                <input type="text" value="${opt}" placeholder="Opzione vuota..." onchange="updateQOption(${qIdx}, ${oIdx}, this.value)">
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function addQuestion() {
+  domande.push({ text: "", options: ["", "", "", ""], correct: 0 });
+  renderQuestions();
+  const last = document.getElementById(`q-card-${domande.length-1}`);
+  if(last) last.scrollIntoView({ behavior: 'smooth' });
+}
+
+function deleteQuestion(idx) {
+  domande.splice(idx, 1);
+  renderQuestions();
+}
+function updateQText(qIdx, val) { domande[qIdx].text = val; }
+function updateQCorrect(qIdx, oIdx) { domande[qIdx].correct = oIdx; }
+function updateQOption(qIdx, oIdx, val) { domande[qIdx].options[oIdx] = val; }
+
+// ── Flusso Esame ────────────────────────────────────────────────────────────
+let fullscreenBlocked = false; 
+
+function enterFullscreen() {
+  if (fullscreenBlocked) return;
+  const el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+}
+
+// Gestione Schermo intero SILENZIOSA (Rimossi completamente gli alert popup)
+document.addEventListener('fullscreenchange', () => {
+  if (!esameAvviato || fullscreenBlocked) return;
+  if (!document.fullscreenElement) {
+    eventiSospetti.fullscreen++;
+    setTimeout(() => {
+      if (!fullscreenBlocked) {
+        enterFullscreen();
+      }
+    }, 150);
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (!esameAvviato || fullscreenBlocked) return;
+  if (document.visibilityState === 'hidden') {
+    eventiSospetti.scheda++;
+  }
+});
+
+window.addEventListener('blur', () => {
+  if (!esameAvviato || fullscreenBlocked) return;
+  eventiSospetti.focus++;
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!esameAvviato || fullscreenBlocked) return;
+  if (e.key === 'F11') { e.preventDefault(); }
+  if (e.altKey && e.key === 'F4') { e.preventDefault(); }
+  if (e.key === 'Escape') { e.preventDefault(); }
+});
+
+window.addEventListener('beforeunload', (e) => {
+  if (esameAvviato && !fullscreenBlocked) {
+    e.preventDefault();
+    e.returnValue = "L'esame è in corso. Sei sicuro di voler chiudere la pagina?";
+  }
+});
+
+// Primo sblocco: porta alla vista d'esame in fullscreen, ma mostra la schermata intermedia ferma
+function startExam() {
+  const valide = domandeValide();
+  if(valide.length === 0) {
+    const err = document.getElementById('start-error-msg');
+    err.style.display = 'block';
+    setTimeout(() => { err.style.display = 'none'; }, 4000);
+    return;
+  }
+  
+  readConfigForm();
+  answers = {};
+  resetEventiSospetti();
+  document.getElementById('exam-candidate-lbl').innerText = configurazione.candidatoCodice || "Nessun Codice";
+  
+  // Reset pulsanti consegna
+  document.getElementById('btn-consegna').classList.remove('hidden');
+  document.getElementById('btn-conferma-consegna').classList.add('hidden');
+  document.getElementById('btn-annulla-consegna').classList.add('hidden');
+
+  renderExamQuestions();
+  updateExamProgress();
+  
+  tempoRimanente = configurazione.durata * 60;
+  updateTimerDisplay();
+  
+  document.querySelector('.topbar-inner .tab-bar').style.display = 'none';
+  document.getElementById('exam-topbar-info').style.display = 'flex';
+  document.getElementById('exam-topbar-info').classList.remove('hidden');
+  
+  document.getElementById('ready-container').classList.remove('hidden');
+  document.getElementById('exam-real-content').classList.add('hidden');
+  
+  switchView('exam');
+  
+  esameAvviato = true;
+  fullscreenBlocked = false;
+  enterFullscreen();
+}
+
+// Secondo sblocco (Azionato dal Candidato premendo "Inizia la Prova Ora")
+function effettivoInizioEsame() {
+  // Nasconde la schermata di attesa intermedia e sblocca il vero esame
+  document.getElementById('ready-container').classList.add('hidden');
+  document.getElementById('exam-real-content').classList.remove('hidden');
+  document.getElementById('exam-sticky-bar').style.display = 'flex';
+  document.getElementById('exam-sticky-bar').classList.remove('hidden');
+  
+  // Avvia ufficialmente il timer del conto alla rovescia
+  if(timerInt) clearInterval(timerInt);
+  timerInt = setInterval(() => {
+    tempoRimanente--;
+    updateTimerDisplay();
+    if(tempoRimanente <= 0) {
+      clearInterval(timerInt);
+      showToast("⏱ Tempo scaduto. Il foglio risposte viene consegnato automaticamente.", 4000);
+      setTimeout(() => terminaEsame(), 400);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const tEl = document.getElementById('exam-timer');
+  const m = Math.floor(tempoRimanente / 60);
+  const s = tempoRimanente % 60;
+  tEl.innerText = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if(tempoRimanente <= 60) { tEl.className = "timer urgent"; } 
+  else if(tempoRimanente <= 300) { tEl.className = "timer warn"; } 
+  else { tEl.className = "timer"; }
+}
+
+function domandeValide() {
+  return domande.filter(q => q.text && q.text.trim() !== '' && q.options.some(o => o && o.trim() !== ''));
+}
+
+function renderExamQuestions() {
+  const container = document.getElementById('exam-questions-container');
+  const letters = ['A', 'B', 'C', 'D'];
+  const valide = domandeValide();
+  container.innerHTML = valide.map((q, qIdx) => {
+    const validOptionsHtml = q.options
+      .map((opt, oIdx) => {
+        if (!opt || opt.trim() === "") return null;
+        return `
+          <button class="opt-choice" id="choice-${qIdx}-${oIdx}" onclick="selectAnswer(${qIdx}, ${oIdx})">
+            <div class="opt-badge">${letters[oIdx]}</div>
+            <div>${opt}</div>
+          </button>
+        `;
+      })
+      .filter(item => item !== null)
+      .join('');
+
+    return `
+      <div class="exam-q-card" id="exam-q-${qIdx}">
+        <div class="q-index">DOMANDA ${qIdx + 1} DI ${valide.length}</div>
+        <div class="q-text">${q.text}</div>
+        ${validOptionsHtml}
+        <button class="opt-choice" id="choice-${qIdx}-abs" style="margin-top:10px" onclick="selectAnswer(${qIdx}, 'abs')">
+          <div class="opt-badge">O</div>
+          <div>Mi astengo</div>
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectAnswer(qIdx, option) {
+  answers[qIdx] = option;
+  const card = document.getElementById(`exam-q-${qIdx}`);
+  card.classList.add('answered');
+  for(let i=0; i<4; i++) {
+    const choiceEl = document.getElementById(`choice-${qIdx}-${i}`);
+    if (choiceEl) choiceEl.classList.remove('sel');
+  }
+  document.getElementById(`choice-${qIdx}-abs`).classList.remove('abstain-sel');
+  if(option === 'abs') {
+    document.getElementById(`choice-${qIdx}-abs`).classList.add('abstain-sel');
+  } else {
+    const targetChoice = document.getElementById(`choice-${qIdx}-${option}`);
+    if (targetChoice) targetChoice.classList.add('sel');
+  }
+  updateExamProgress();
+}
+
+function updateExamProgress() {
+  const valide = domandeValide();
+  const dateConteggiate = Object.keys(answers).length;
+  document.getElementById('exam-progress-pills').innerText = dateConteggiate;
+  const totEl = document.getElementById('exam-tot-lbl');
+  if (totEl) totEl.innerText = valide.length;
+  const pct = valide.length > 0 ? (dateConteggiate / valide.length) * 100 : 0;
+  document.getElementById('exam-prog-fill').style.width = `${pct}%`;
+}
+
+function primaConsegna() {
+  document.getElementById('btn-consegna').classList.add('hidden');
+  document.getElementById('btn-conferma-consegna').classList.remove('hidden');
+  document.getElementById('btn-annulla-consegna').classList.remove('hidden');
+}
+
+function annullaConsegna() {
+  document.getElementById('btn-consegna').classList.remove('hidden');
+  document.getElementById('btn-conferma-consegna').classList.add('hidden');
+  document.getElementById('btn-annulla-consegna').classList.add('hidden');
+}
+
+function calcolaRisultato() {
+  let esatte = 0; let errate = 0; let omesse = 0;
+  domandeValide().forEach((q, idx) => {
+    const ans = answers[idx];
+    if(ans === undefined || ans === 'abs') { omesse++; }
+    else if(parseInt(ans) === q.correct) { esatte++; }
+    else { errate++; }
+  });
+  let votoTotaleRaw = (esatte * configurazione.ptEsatta) + (errate * configurazione.ptErrata) + (omesse * configurazione.ptOmessa);
+  return { esatte, errate, omesse, votoTotale: Math.round(votoTotaleRaw) };
+}
+
+function terminaEsame() {
+  if(timerInt) clearInterval(timerInt);
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+    fullscreenBlocked = true; 
+  }
+
+  const { esatte, errate, omesse, votoTotale } = calcolaRisultato();
+  
+  document.getElementById('verb-comune').innerText = configurazione.comune.toUpperCase();
+  document.getElementById('verb-concorso').innerText = configurazione.concorso;
+  document.getElementById('verb-data').innerText = "Data sessione: " + (configurazione.data ? new Date(configurazione.data).toLocaleDateString('it-IT') : '—');
+  document.getElementById('res-voto').innerText = votoTotale;
+  document.getElementById('res-esatte').innerText = Math.round(esatte);
+  document.getElementById('res-errate').innerText = Math.round(errate);
+  document.getElementById('res-omesse').innerText = Math.round(omesse);
+  document.getElementById('res-candidato').innerText = configurazione.candidatoCodice || "Nessun Codice";
+  document.getElementById('res-crit-esatta').innerText = (configurazione.ptEsatta >= 0 ? '+' : '') + configurazione.ptEsatta;
+  document.getElementById('res-crit-errata').innerText = configurazione.ptErrata;
+  document.getElementById('res-crit-omessa').innerText = configurazione.ptOmessa;
+  document.getElementById('res-crit-min').innerText = configurazione.minimo;
+  
+  document.getElementById('res-candidato-screen').innerText = configurazione.candidatoCodice || "Nessun Codice";
+  document.getElementById('res-crit-esatta-screen').innerText = (configurazione.ptEsatta >= 0 ? '+' : '') + configurazione.ptEsatta;
+  document.getElementById('res-crit-errata-screen').innerText = configurazione.ptErrata;
+  document.getElementById('res-crit-omessa-screen').innerText = configurazione.ptOmessa;
+  document.getElementById('res-crit-min-screen').innerText = configurazione.minimo;
+  
+  const isApprovato = votoTotale >= configurazione.minimo;
+  const badgeContainer = document.getElementById('res-badge-container');
+  badgeContainer.innerHTML = isApprovato
+    ? `<div class="esito-badge esito-pass">ESAME SUPERATO</div>`
+    : `<div class="esito-badge esito-fail">ESAME NON SUPERATO</div>`;
+
+  // Statistiche sorveglianza
+  const coloreCella = (id, n) => {
+    const el = document.getElementById(id);
+    if (n > 0) { el.style.borderColor = '#f0b0b0'; el.style.background = 'var(--red-bg)'; }
+  };
+  coloreCella('sorv-cell-fs', eventiSospetti.fullscreen);
+  coloreCella('sorv-cell-sc', eventiSospetti.scheda);
+  coloreCella('sorv-cell-fo', eventiSospetti.focus);
+  const letters = ['A', 'B', 'C', 'D'];
+  document.getElementById('review-list').innerHTML = domandeValide().map((q, idx) => {
+    const ans = answers[idx];
+    let classItem = 'oms'; let esito = 'Omessa';
+    let isAbs = (ans === undefined || ans === 'abs');
+    let isWrong = false;
+    if(!isAbs) {
+      if(parseInt(ans) === q.correct) { classItem = 'corr'; esito = 'Corretta'; }
+      else { classItem = 'err'; esito = 'Errata'; isWrong = true; }
+    }
+    const ptLabel = Math.round(isAbs ? configurazione.ptOmessa : (parseInt(ans) === q.correct ? configurazione.ptEsatta : configurazione.ptErrata));
+    return `
+    <div class="review-item ${classItem}">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:600;color:var(--ink3);font-family:'IBM Plex Mono',monospace">DOM. ${String(idx+1).padStart(2,'0')}</span>
+        <span style="font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace">${ptLabel >= 0 ? '+' : ''}${ptLabel} pt &nbsp; ${esito}</span>
+      </div>
+      <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:6px">${q.text || '[Nessun testo]'}</p>
+      <p style="font-size:12px;color:var(--ink2)">
+        Risposta data: <strong>${isAbs ? 'Omessa' : letters[parseInt(ans)] + ') ' + q.options[parseInt(ans)]}</strong>
+        ${isWrong ? ' &nbsp;·&nbsp; Risposta corretta: <strong>' + letters[q.correct] + ') ' + q.options[q.correct] + '</strong>' : ''}
+      </p>
+    </div>`;
+  }).join('');
+
+  try {
+    const reportObj = {
+      _t: new Date().toISOString(),
+      candidato: configurazione.candidatoCodice,
+      comune: configurazione.comune,
+      concorso: configurazione.concorso,
+      dataEsame: configurazione.data,
+      votoTotale, esatte, errate, omesse,
+      idoneo: isApprovato,
+      sorveglianza: { ...eventiSospetti },
+      criteri: { ptEsatta: configurazione.ptEsatta, ptErrata: configurazione.ptErrata, ptOmessa: configurazione.ptOmessa, minimo: configurazione.minimo },
+      risposte: domandeValide().map((q, idx) => {
+        const ans = answers[idx];
+        const isAbs = (ans === undefined || ans === 'abs');
+        return {
+          n: idx + 1,
+          domanda: q.text,
+          risposta: isAbs ? 'OMESSA' : (letters[parseInt(ans)] + ') ' + q.options[parseInt(ans)]),
+          corretta: letters[q.correct] + ') ' + q.options[q.correct],
+          esito: isAbs ? 'Omessa' : (parseInt(ans) === q.correct ? 'Corretta' : 'Errata')
+        };
+      })
+    };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(reportObj, null, 2))));
+    const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
+    const ts = new Date().toISOString().replace(/[-:.TZ]/g,'').substring(0,12);
+    const blob = new Blob([encoded], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `esame_${ts}_${rand}`;  
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  } catch(e) {}
+
+  switchView('concluso');
+}
+
+function richiestaVisualizzaRisultato() {
+  document.getElementById('pin-risultato-input').value = '';
+  document.getElementById('pin-risultato-error').innerText = '';
+  document.getElementById('pin-risultato-overlay').classList.remove('hidden');
+  setTimeout(() => document.getElementById('pin-risultato-input').focus(), 100);
+}
+
+function chiudiPinRisultato() {
+  document.getElementById('pin-risultato-overlay').classList.add('hidden');
+}
+
+function checkPinRisultato() {
+  const input = document.getElementById('pin-risultato-input').value;
+  if (input === pinCorretto) {
+    document.getElementById('pin-risultato-overlay').classList.add('hidden');
+    document.getElementById('pin-risultato-input').value = '';
+    document.getElementById('pin-risultato-error').innerText = '';
+    switchView('result');
+  } else {
+    document.getElementById('pin-risultato-error').innerText = 'PIN errato. Riprova.';
+    document.getElementById('pin-risultato-input').value = '';
+  }
+}
+
+function toggleReview() {
+  const r = document.getElementById('answer-review');
+  r.classList.toggle('hidden');
+}
+
+function newExam() {
+  answers = {};
+  esameAvviato = false;
+  fullscreenBlocked = false;
+  if (timerInt) clearInterval(timerInt);
+  document.getElementById('answer-review').classList.add('hidden');
+  document.querySelector('.topbar-inner .tab-bar').style.display = 'flex';
+  document.getElementById('exam-topbar-info').style.display = 'none';
+  document.getElementById('exam-sticky-bar').style.display = 'none';
+  switchTab('exam-start');
+}
+
+// ── Recupero Verbale da Backup ──────────────────────────────────────────────
+function caricaFileBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  document.getElementById('recupero-filename').innerText = file.name;
+  document.getElementById('recupero-error').innerText = '';
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    decodificaBackup(e.target.result.trim());
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function decodificaBackup(raw) {
+  const errEl = document.getElementById('recupero-error');
+  errEl.innerText = '';
+  if (!raw) { errEl.innerText = 'File vuoto o non leggibile.'; return; }
+
+  let report;
+  try {
+    const decoded = decodeURIComponent(escape(atob(raw)));
+    report = JSON.parse(decoded);
+  } catch(e) {
+    errEl.innerText = 'Decodifica fallita: il contenuto non è un backup valido.';
+    return;
+  }
+
+  if (report.votoTotale === undefined || !report.candidato) {
+    errEl.innerText = 'Il file non contiene un verbale d\'esame riconoscibile.';
+    return;
+  }
+
+  document.getElementById('rec-verb-comune').innerText = (report.comune || '').toUpperCase();
+  document.getElementById('rec-verb-concorso').innerText = report.concorso || '';
+  const dataStr = report.dataEsame ? new Date(report.dataEsame).toLocaleDateString('it-IT') : '—';
+  document.getElementById('rec-verb-data').innerText = 'Data sessione: ' + dataStr;
+
+  document.getElementById('rec-res-voto').innerText = report.votoTotale;
+  document.getElementById('rec-res-esatte').innerText = report.esatte;
+  document.getElementById('rec-res-errate').innerText = report.errate;
+  document.getElementById('rec-res-omesse').innerText = report.omesse;
+  document.getElementById('rec-res-candidato').innerText = report.candidato;
+  document.getElementById('rec-res-candidato-screen').innerText = report.candidato;
+
+  const c = report.criteri || {};
+  document.getElementById('rec-crit-esatta').innerText = ((c.ptEsatta >= 0) ? '+' : '') + (c.ptEsatta ?? '—');
+  document.getElementById('rec-crit-errata').innerText = c.ptErrata ?? '—';
+  document.getElementById('rec-crit-omessa').innerText = c.ptOmessa ?? '—';
+  document.getElementById('rec-crit-min').innerText = c.minimo ?? '—';
+  document.getElementById('rec-crit-esatta-screen').innerText = ((c.ptEsatta >= 0) ? '+' : '') + (c.ptEsatta ?? '—');
+  document.getElementById('rec-crit-errata-screen').innerText = c.ptErrata ?? '—';
+  document.getElementById('rec-crit-omessa-screen').innerText = c.ptOmessa ?? '—';
+  document.getElementById('rec-crit-min-screen').innerText = c.minimo ?? '—';
+
+  const badgeContainer = document.getElementById('rec-res-badge-container');
+  badgeContainer.innerHTML = report.idoneo
+    ? `<div class="esito-badge esito-pass">ESAME SUPERATO</div>`
+    : `<div class="esito-badge esito-fail">ESAME NON SUPERATO</div>`;
+
+  const risposte = report.risposte || [];
+  document.getElementById('rec-review-list').innerHTML = risposte.map((r, idx) => {
+    const isOmessa = r.esito === 'Omessa';
+    const isCorretta = r.esito === 'Corretta';
+    const classItem = isOmessa ? 'oms' : (isCorretta ? 'corr' : 'err');
+    const ptRaw = isOmessa ? (c.ptOmessa ?? 0) : (isCorretta ? (c.ptEsatta ?? 0) : (c.ptErrata ?? 0));
+    const pt = Math.round(ptRaw);
+    return `
+    <div class="review-item ${classItem}">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:600;color:var(--ink3);font-family:'IBM Plex Mono',monospace">DOM. ${String(r.n).padStart(2,'0')}</span>
+        <span style="font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace">${pt >= 0 ? '+' : ''}${pt} pt &nbsp; ${r.esito}</span>
+      </div>
+      <p style="font-size:13px;font-weight:500;color:var(--ink);margin-bottom:6px">${r.domanda || '[Nessun testo]'}</p>
+      <p style="font-size:12px;color:var(--ink2)">
+        Risposta data: <strong>${r.risposta}</strong>
+        ${r.esito === 'Errata' ? ' &nbsp;·&nbsp; Risposta corretta: <strong>' + r.corretta + '</strong>' : ''}
+      </p>
+    </div>`;
+  }).join('');
+
+  document.getElementById('recupero-input-card').classList.add('hidden');
+  document.getElementById('rec-answer-review').classList.add('hidden');
+
+  // Statistiche sorveglianza da backup
+  const sorv = report.sorveglianza || null;
+  const coloreCellaRec = (id, n) => {
+    const el = document.getElementById(id);
+    if (n > 0) { el.style.borderColor = '#f0b0b0'; el.style.background = 'var(--red-bg)'; }
+  };
+  if (sorv) {
+    document.getElementById('rec-sorv-fullscreen').innerText = sorv.fullscreen ?? '—';
+    document.getElementById('rec-sorv-scheda').innerText = sorv.scheda ?? '—';
+    document.getElementById('rec-sorv-focus').innerText = sorv.focus ?? '—';
+    coloreCellaRec('rec-sorv-cell-fs', sorv.fullscreen);
+    coloreCellaRec('rec-sorv-cell-sc', sorv.scheda);
+    coloreCellaRec('rec-sorv-cell-fo', sorv.focus);
+  } else {
+    document.getElementById('rec-sorv-fullscreen').innerText = 'N/D';
+    document.getElementById('rec-sorv-scheda').innerText = 'N/D';
+    document.getElementById('rec-sorv-focus').innerText = 'N/D';
+  }
+
+  document.getElementById('recupero-result-card').classList.remove('hidden');
+}
+
+function tornaInputRecupero() {
+  document.getElementById('recupero-result-card').classList.add('hidden');
+  document.getElementById('recupero-input-card').classList.remove('hidden');
+  document.getElementById('rec-answer-review').classList.add('hidden');
+  document.getElementById('recupero-filename').innerText = '';
+  document.getElementById('recupero-error').innerText = '';
+}
+
+function toggleRecuperoReview() {
+  document.getElementById('rec-answer-review').classList.toggle('hidden');
+}
+
+applicaConfigurazioneAttiva();
+renderQuestions();
+updatePreExamInfo();
+renderBatterie();
+</script>
+
+</body></html>
