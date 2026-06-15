@@ -314,10 +314,12 @@ textarea{resize:vertical;min-height:52px}
     </div>
 
     <div class="card">
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button class="btn" onclick="downloadConfiguration()">Scarica Configurazione</button>
+        <button class="btn" id="btn-scarica-html" onclick="aggiornaSelf()">Scarica HTML aggiornato</button>
+      </div>
       <div style="display:flex;justify-content:between;align-items:center;margin-bottom:1rem">
         <h2 style="margin:0">Database Domande</h2>
-        <button class="btn" onclick="downloadConfiguration()">Scarica Configurazione</button>
-        <button class="btn" id="btn-scarica-html" style="margin-left:10px" onclick="aggiornaSelf()">Scarica HTML aggiornato</button>
         <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="addQuestion()">+ Aggiungi Domanda</button>
       </div>
       <div id="questions-list">
@@ -1517,30 +1519,35 @@ function renderExamQuestions() {
         <div class="q-index">DOMANDA ${qIdx + 1} DI ${valide.length}</div>
         <div class="q-text">${q.text}</div>
         ${validOptionsHtml}
-        <button class="opt-choice" id="choice-${qIdx}-abs" style="margin-top:10px" onclick="selectAnswer(${qIdx}, 'abs')">
-          <div class="opt-badge">O</div>
-          <div>Mi astengo</div>
-        </button>
+        <div style="font-size:11px;color:var(--ink3);margin-top:6px;text-align:right">Clicca di nuovo sulla risposta selezionata per deselezionarla</div>
       </div>
     `;
   }).join('');
 }
 
 function selectAnswer(qIdx, option) {
+  // Se l'opzione cliccata è già quella selezionata → deseleziona (omessa)
+  if (answers[qIdx] === option) {
+    delete answers[qIdx];
+    const card = document.getElementById(`exam-q-${qIdx}`);
+    card.classList.remove('answered');
+    for (let i = 0; i < 4; i++) {
+      const el = document.getElementById(`choice-${qIdx}-${i}`);
+      if (el) el.classList.remove('sel');
+    }
+    updateExamProgress();
+    return;
+  }
+  // Altrimenti seleziona la nuova opzione
   answers[qIdx] = option;
   const card = document.getElementById(`exam-q-${qIdx}`);
   card.classList.add('answered');
-  for(let i=0; i<4; i++) {
-    const choiceEl = document.getElementById(`choice-${qIdx}-${i}`);
-    if (choiceEl) choiceEl.classList.remove('sel');
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById(`choice-${qIdx}-${i}`);
+    if (el) el.classList.remove('sel');
   }
-  document.getElementById(`choice-${qIdx}-abs`).classList.remove('abstain-sel');
-  if(option === 'abs') {
-    document.getElementById(`choice-${qIdx}-abs`).classList.add('abstain-sel');
-  } else {
-    const targetChoice = document.getElementById(`choice-${qIdx}-${option}`);
-    if (targetChoice) targetChoice.classList.add('sel');
-  }
+  const target = document.getElementById(`choice-${qIdx}-${option}`);
+  if (target) target.classList.add('sel');
   updateExamProgress();
 }
 
@@ -1570,7 +1577,7 @@ function calcolaRisultato() {
   let esatte = 0; let errate = 0; let omesse = 0;
   domandeValide().forEach((q, idx) => {
     const ans = answers[idx];
-    if(ans === undefined || ans === 'abs') { omesse++; }
+    if(ans === undefined || ans === undefined) { omesse++; }
     else if(parseInt(ans) === q.correct) { esatte++; }
     else { errate++; }
   });
@@ -1624,7 +1631,7 @@ function terminaEsame() {
   document.getElementById('review-list').innerHTML = domandeValide().map((q, idx) => {
     const ans = answers[idx];
     let classItem = 'oms'; let esito = 'Omessa';
-    let isAbs = (ans === undefined || ans === 'abs');
+    let isAbs = (ans === undefined);
     let isWrong = false;
     if(!isAbs) {
       if(parseInt(ans) === q.correct) { classItem = 'corr'; esito = 'Corretta'; }
@@ -1658,7 +1665,7 @@ function terminaEsame() {
       criteri: { ptEsatta: configurazione.ptEsatta, ptErrata: configurazione.ptErrata, ptOmessa: configurazione.ptOmessa, minimo: configurazione.minimo },
       risposte: domandeValide().map((q, idx) => {
         const ans = answers[idx];
-        const isAbs = (ans === undefined || ans === 'abs');
+        const isAbs = (ans === undefined);
         return {
           n: idx + 1,
           domanda: q.text,
