@@ -272,7 +272,7 @@ textarea{resize:vertical;min-height:52px}
       </div>
       <div class="row">
         <div class="field" style="flex-direction:row;align-items:center;gap:8px">
-          <input type="checkbox" id="cfg-randomizza" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
+          <input type="checkbox" id="cfg-randomizza" checked="" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
           <label for="cfg-randomizza" class="lbl" style="margin:0;text-transform:none;font-size:13px;font-weight:400;color:var(--ink);cursor:pointer">Randomizza ordine domande e risposte a ogni avvio dell'esame</label>
         </div>
       </div>
@@ -284,47 +284,63 @@ textarea{resize:vertical;min-height:52px}
         </div>
         <div style="display:flex;flex-direction:column;gap:6px" id="batterie-list">
       <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
-        <input type="text" value="Configurazione 1" onchange="rinominaBatteria(0, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        <input type="text" value="Busta 1" onchange="rinominaBatteria(0, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
         <span style="font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace">10 dom.</span>
-        <div style="margin-left:auto;display:flex;gap:6px">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
           <button class="btn btn-sm" id="btn-batt-salva-0" onclick="salvaInBatteria(0)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-0" onclick="scaricaConfigurazioneBatteria(0)">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-0" onclick="caricaFileInBatteria(0)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-0" onclick="stampaConfigurazione(0)">Stampa</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-0" onclick="eliminaBatteria(0)">Elimina</button>
-          <button class="btn btn-sm" id="btn-batt-attiva-0" onclick="attivaBatteria(0)" style="background:transparent;transition:all .2s">Attiva</button>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:pointer;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
+            <input type="checkbox" onchange="attivaBatteria(0, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:pointer">
+            Attiva
+          </label>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
-        <input type="text" value="Configurazione 2" onchange="rinominaBatteria(1, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
+        <input type="text" value="Busta 2" onchange="rinominaBatteria(1, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
         <span style="font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace">10 dom.</span>
-        <div style="margin-left:auto;display:flex;gap:6px">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
           <button class="btn btn-sm" id="btn-batt-salva-1" onclick="salvaInBatteria(1)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-1" onclick="scaricaConfigurazioneBatteria(1)">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-1" onclick="caricaFileInBatteria(1)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-1" onclick="stampaConfigurazione(1)">Stampa</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-1" onclick="eliminaBatteria(1)">Elimina</button>
-          <button class="btn btn-sm" id="btn-batt-attiva-1" onclick="attivaBatteria(1)" style="background:transparent;transition:all .2s">Attiva</button>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:pointer;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
+            <input type="checkbox" onchange="attivaBatteria(1, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:pointer">
+            Attiva
+          </label>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
         <input type="text" value="Configurazione 3" onchange="rinominaBatteria(2, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
         <span style="font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace">10 dom.</span>
-        <div style="margin-left:auto;display:flex;gap:6px">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
           <button class="btn btn-sm" id="btn-batt-salva-2" onclick="salvaInBatteria(2)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-2" onclick="scaricaConfigurazioneBatteria(2)">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-2" onclick="caricaFileInBatteria(2)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-2" onclick="stampaConfigurazione(2)">Stampa</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-2" onclick="eliminaBatteria(2)">Elimina</button>
-          <button class="btn btn-sm" id="btn-batt-attiva-2" onclick="attivaBatteria(2)" style="background:transparent;transition:all .2s">Attiva</button>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:pointer;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
+            <input type="checkbox" onchange="attivaBatteria(2, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:pointer">
+            Attiva
+          </label>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:#fafaf8">
         <input type="text" value="Configurazione 4" onchange="rinominaBatteria(3, this.value)" style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
         <span style="font-size:11px;color:var(--ink3)">vuota</span>
-        <div style="margin-left:auto;display:flex;gap:6px">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
           <button class="btn btn-sm" id="btn-batt-salva-3" onclick="salvaInBatteria(3)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-3" onclick="scaricaConfigurazioneBatteria(3)" disabled="" style="opacity:.4;cursor:default">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-3" onclick="caricaFileInBatteria(3)">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-3" onclick="stampaConfigurazione(3)" disabled="" style="opacity:.4;cursor:default">Stampa</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-3" onclick="eliminaBatteria(3)" disabled="" style="opacity:.4;cursor:default">Elimina</button>
-          <button class="btn btn-sm" id="btn-batt-attiva-3" onclick="attivaBatteria(3)" style="background:transparent;transition:all .2s" disabled="">Attiva</button>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:default;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
+            <input type="checkbox" disabled="" onchange="attivaBatteria(3, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:default">
+            Attiva
+          </label>
         </div>
       </div></div>
         <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
@@ -340,7 +356,397 @@ textarea{resize:vertical;min-height:52px}
       <div style="display:flex;justify-content:between;align-items:center;margin-bottom:1rem">
         <h2 style="margin:0">Database Domande</h2>
       </div>
-      <div id="questions-list"><p style="text-align:center;color:var(--ink3);padding:20px">Nessuna domanda presente. Aggiungine una.</p></div>
+      <div id="questions-list">
+      <div class="q-card" id="q-card-0">
+        <div class="q-head">
+          <span class="q-num">QUESITO 01</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(0)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(0, this.value)">Qual è la capitale d'Italia?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-0" onchange="updateQCorrect(0, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Milano" placeholder="Opzione vuota..." onchange="updateQOption(0, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-0" checked="" onchange="updateQCorrect(0, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Roma" placeholder="Opzione vuota..." onchange="updateQOption(0, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-0" onchange="updateQCorrect(0, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Napoli" placeholder="Opzione vuota..." onchange="updateQOption(0, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-0" onchange="updateQCorrect(0, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(0, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-1">
+        <div class="q-head">
+          <span class="q-num">QUESITO 02</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(1)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(1, this.value)">Quanti mesi ha un anno?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-1" onchange="updateQCorrect(1, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="10" placeholder="Opzione vuota..." onchange="updateQOption(1, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-1" onchange="updateQCorrect(1, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="11" placeholder="Opzione vuota..." onchange="updateQOption(1, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-1" checked="" onchange="updateQCorrect(1, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="12" placeholder="Opzione vuota..." onchange="updateQOption(1, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-1" onchange="updateQCorrect(1, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(1, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-2">
+        <div class="q-head">
+          <span class="q-num">QUESITO 03</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(2)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(2, this.value)">Quale pianeta è il più vicino al Sole?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-2" onchange="updateQCorrect(2, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Venere" placeholder="Opzione vuota..." onchange="updateQOption(2, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-2" onchange="updateQCorrect(2, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Terra" placeholder="Opzione vuota..." onchange="updateQOption(2, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-2" checked="" onchange="updateQCorrect(2, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Mercurio" placeholder="Opzione vuota..." onchange="updateQOption(2, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-2" onchange="updateQCorrect(2, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(2, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-3">
+        <div class="q-head">
+          <span class="q-num">QUESITO 04</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(3)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(3, this.value)">Quanto fa 15 × 4?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-3" onchange="updateQCorrect(3, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="50" placeholder="Opzione vuota..." onchange="updateQOption(3, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-3" checked="" onchange="updateQCorrect(3, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="60" placeholder="Opzione vuota..." onchange="updateQOption(3, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-3" onchange="updateQCorrect(3, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="55" placeholder="Opzione vuota..." onchange="updateQOption(3, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-3" onchange="updateQCorrect(3, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(3, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-4">
+        <div class="q-head">
+          <span class="q-num">QUESITO 05</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(4)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(4, this.value)">In quale continente si trova il Brasile?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-4" onchange="updateQCorrect(4, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Africa" placeholder="Opzione vuota..." onchange="updateQOption(4, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-4" onchange="updateQCorrect(4, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Asia" placeholder="Opzione vuota..." onchange="updateQOption(4, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-4" checked="" onchange="updateQCorrect(4, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="America del Sud" placeholder="Opzione vuota..." onchange="updateQOption(4, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-4" onchange="updateQCorrect(4, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(4, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-5">
+        <div class="q-head">
+          <span class="q-num">QUESITO 06</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(5)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(5, this.value)">Quanti lati ha un esagono?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-5" onchange="updateQCorrect(5, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="5" placeholder="Opzione vuota..." onchange="updateQOption(5, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-5" onchange="updateQCorrect(5, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="7" placeholder="Opzione vuota..." onchange="updateQOption(5, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-5" checked="" onchange="updateQCorrect(5, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="6" placeholder="Opzione vuota..." onchange="updateQOption(5, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-5" onchange="updateQCorrect(5, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(5, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-6">
+        <div class="q-head">
+          <span class="q-num">QUESITO 07</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(6)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(6, this.value)">Chi ha dipinto la Gioconda?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-6" onchange="updateQCorrect(6, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Michelangelo" placeholder="Opzione vuota..." onchange="updateQOption(6, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-6" checked="" onchange="updateQCorrect(6, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Leonardo da Vinci" placeholder="Opzione vuota..." onchange="updateQOption(6, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-6" onchange="updateQCorrect(6, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Raffaello" placeholder="Opzione vuota..." onchange="updateQOption(6, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-6" onchange="updateQCorrect(6, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(6, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-7">
+        <div class="q-head">
+          <span class="q-num">QUESITO 08</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(7)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(7, this.value)">Qual è la formula chimica dell'acqua?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-7" onchange="updateQCorrect(7, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="CO2" placeholder="Opzione vuota..." onchange="updateQOption(7, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-7" checked="" onchange="updateQCorrect(7, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="H2O" placeholder="Opzione vuota..." onchange="updateQOption(7, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-7" onchange="updateQCorrect(7, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="O2" placeholder="Opzione vuota..." onchange="updateQOption(7, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-7" onchange="updateQCorrect(7, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(7, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-8">
+        <div class="q-head">
+          <span class="q-num">QUESITO 09</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(8)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(8, this.value)">In quale anno è terminata la Seconda Guerra Mondiale?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-8" onchange="updateQCorrect(8, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="1943" placeholder="Opzione vuota..." onchange="updateQOption(8, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-8" onchange="updateQCorrect(8, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="1918" placeholder="Opzione vuota..." onchange="updateQOption(8, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-8" checked="" onchange="updateQCorrect(8, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="1945" placeholder="Opzione vuota..." onchange="updateQOption(8, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-8" onchange="updateQCorrect(8, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(8, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    
+      <div class="q-card" id="q-card-9">
+        <div class="q-head">
+          <span class="q-num">QUESITO 10</span>
+          <button class="btn btn-danger btn-sm" onclick="deleteQuestion(9)">Elimina</button>
+        </div>
+        <div class="q-body">
+          <div class="field" style="margin-bottom:12px">
+            <label class="lbl">Testo della Domanda</label>
+            <textarea placeholder="Inserisci il testo della domanda..." onchange="updateQText(9, this.value)">Quale organo del corpo umano pompa il sangue?</textarea>
+          </div>
+          <label class="lbl" style="display:block;margin-bottom:6px">Opzioni di Risposta ed Esatta</label>
+          
+              <div class="opt-row">
+                <input type="radio" name="correct-9" onchange="updateQCorrect(9, 0)">
+                <span class="mono" style="font-size:12px;width:14px">A</span>
+                <input type="text" value="Polmone" placeholder="Opzione vuota..." onchange="updateQOption(9, 0, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-9" onchange="updateQCorrect(9, 1)">
+                <span class="mono" style="font-size:12px;width:14px">B</span>
+                <input type="text" value="Fegato" placeholder="Opzione vuota..." onchange="updateQOption(9, 1, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-9" checked="" onchange="updateQCorrect(9, 2)">
+                <span class="mono" style="font-size:12px;width:14px">C</span>
+                <input type="text" value="Cuore" placeholder="Opzione vuota..." onchange="updateQOption(9, 2, this.value)">
+              </div>
+            
+              <div class="opt-row">
+                <input type="radio" name="correct-9" onchange="updateQCorrect(9, 3)">
+                <span class="mono" style="font-size:12px;width:14px">D</span>
+                <input type="text" value="" placeholder="Opzione vuota..." onchange="updateQOption(9, 3, this.value)">
+              </div>
+            
+        </div>
+      </div>
+    </div>
     <div id="add-question-btn-wrapper" style="display:flex;justify-content:center;margin-top:10px;">
       <button class="btn btn-primary btn-sm" onclick="addQuestion()">+ Aggiungi Domanda</button>
     </div>
@@ -629,7 +1035,8 @@ let configurazione = {
   ptEsatta: 1,
   ptErrata: 0,
   ptOmessa: 0,
-  candidatoCodice: "CAND-001"
+  candidatoCodice: "CAND-001",
+  randomizza: true
 };
 
 let domande = Array.from({ length: 10 }, () => ({
@@ -655,7 +1062,7 @@ function shuffleArray(arr) {
 }
 
 // ── Configurazioni Salvate ───────────────────────────────────────────────────
-let batterieInterne = /*BATTERIE_INTERNE*/[{"nome":"Busta 1","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-22","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"1G6XC92S86"},"domande":[{"text":"Ai sensi della normativa vigente, il presupposto dell’IMU è:","options":["La residenza anagrafica nel Comune","Il possesso di immobili a titolo di proprietà o altro diritto reale","La sola detenzione dell’immobile",""],"correct":1},{"text":"Il termine ordinario per la notifica degli avvisi di accertamento dei tributi locali è:","options":["Il 31 dicembre del quinto anno successivo","Dieci anni dalla violazione","Tre anni dalla dichiarazione",""],"correct":0},{"text":"Che cosa è un’istanza:","options":["E’ l’atto con cui il cittadino chiede che l’amministrazione emani nei suoi confronti di un provvedimento","E’ una domanda di assunzione presentata ad un ente pubblico","E’ la richiesta di un provvedimento legislativo presentata da un cittadino alle camere",""],"correct":0},{"text":"Il servizio idrico integrato comprende:","options":["Solo distribuzione dell’acqua","Acquedotto, fognatura e depurazione","Solo depurazione",""],"correct":1},{"text":"Quale organo ha competenza in materia di approvazione del bilancio di previsione:","options":["La Giunta Comunale","Il Consiglio Comunale","Il Sindaco",""],"correct":1},{"text":"La regolazione delle tariffe del servizio idrico è affidata a:","options":["Ministero dell’Interno","Agenzia delle Entrate","ARERA",""],"correct":2},{"text":"L’accesso documentale disciplinato dalla Legge n.241/1990 è riconosciuto:","options":["A chiunque senza necessità di motivazione","Ai soli Consiglieri Comunali","Ai soggetti portatori di un interesse diretto, concreto e attuale",""],"correct":2},{"text":"L’impegno di spesa costituisce:","options":["La fase della spesa con cui viene costituito il vincolo sulle previsioni di bilancio","La fase conclusiva del pagamento","L’ordine impartito al tesoriere per effettuare il pagamento",""],"correct":0},{"text":"A norma dell'art. 12 del DPR n. 62/2013 (Codice di comportamento dei dipendenti pubblici), il dipendente che riceve una richiesta da parte di un cittadino su una pratica che non rientra nelle proprie competenze deve:","options":["Limitarsi a dichiarare la propria incompetenza, invitando il cittadino a reperire autonomamente le informazioni necessarie","Indirizzare l'interessato al funzionario o all'ufficio competente della medesima amministrazione, fornendo le indicazioni necessarie","Trasmettere direttamente la richiesta ad altra amministrazione, senza ulteriori comunicazioni all'interessato.",""],"correct":1},{"text":"Quale tra i seguenti atti è tipicamente adottato dalla Giunta Comunale?","options":["Approvazione del PEG (Piano Esecutivo di Gestione)","Accertamento delle entrate tributarie","Emissioni di Sanzioni Amministrative",""],"correct":0}]},"attiva":false},{"nome":"Busta 2","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-22","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"1G6XC92S86"},"domande":[{"text":"Ai sensi della normativa vigente, il presupposto dell’IMU è:","options":["La residenza anagrafica nel Comune","Il possesso di immobili a titolo di proprietà o altro diritto reale","La sola detenzione dell’immobile",""],"correct":1},{"text":"Il termine ordinario per la notifica degli avvisi di accertamento dei tributi locali è:","options":["Il 31 dicembre del quinto anno successivo","Dieci anni dalla violazione","Tre anni dalla dichiarazione",""],"correct":0},{"text":"Che cosa è un’istanza:","options":["E’ l’atto con cui il cittadino chiede che l’amministrazione emani nei suoi confronti di un provvedimento","E’ una domanda di assunzione presentata ad un ente pubblico","E’ la richiesta di un provvedimento legislativo presentata da un cittadino alle camere",""],"correct":0},{"text":"Il servizio idrico integrato comprende:","options":["Solo distribuzione dell’acqua","Acquedotto, fognatura e depurazione","Solo depurazione",""],"correct":1},{"text":"Quale organo ha competenza in materia di approvazione del bilancio di previsione:","options":["La Giunta Comunale","Il Consiglio Comunale","Il Sindaco",""],"correct":1},{"text":"La regolazione delle tariffe del servizio idrico è affidata a:","options":["Ministero dell’Interno","Agenzia delle Entrate","ARERA",""],"correct":2},{"text":"L’accesso documentale disciplinato dalla Legge n.241/1990 è riconosciuto:","options":["A chiunque senza necessità di motivazione","Ai soli Consiglieri Comunali","Ai soggetti portatori di un interesse diretto, concreto e attuale",""],"correct":2},{"text":"L’impegno di spesa costituisce:","options":["La fase della spesa con cui viene costituito il vincolo sulle previsioni di bilancio","La fase conclusiva del pagamento","L’ordine impartito al tesoriere per effettuare il pagamento",""],"correct":0},{"text":"Per affidare un servizio di pulizia degli uffici comunali per 12 mesi. Quale atto è corretto adottare?","options":["Delibera di Consiglio Comunale di approvazione del servizio","Determina dirigenziale di affidamento con contestuale impegno di spesa","Delibera di Giunta di liquidazione delle fatture",""],"correct":1},{"text":"Quale tra i seguenti atti è tipicamente adottato dalla Giunta Comunale?","options":["Approvazione del PEG (Piano Esecutivo di Gestione)","Accertamento delle entrate tributarie","Emissioni di Sanzioni Amministrative",""],"correct":0}]},"attiva":false},{"nome":"Busta 3","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-22","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"1G6XC92S86"},"domande":[{"text":"Ai sensi della normativa vigente, il presupposto dell’IMU è:","options":["La residenza anagrafica nel Comune","Il possesso di immobili a titolo di proprietà o altro diritto reale","La sola detenzione dell’immobile",""],"correct":1},{"text":"Il termine ordinario per la notifica degli avvisi di accertamento dei tributi locali è:","options":["Il 31 dicembre del quinto anno successivo","Dieci anni dalla violazione","Tre anni dalla dichiarazione",""],"correct":0},{"text":"Che cosa è un’istanza:","options":["E’ l’atto con cui il cittadino chiede che l’amministrazione emani nei suoi confronti di un provvedimento","E’ una domanda di assunzione presentata ad un ente pubblico","E’ la richiesta di un provvedimento legislativo presentata da un cittadino alle camere",""],"correct":0},{"text":"Il servizio idrico integrato comprende:","options":["Solo distribuzione dell’acqua","Acquedotto, fognatura e depurazione","Solo depurazione",""],"correct":1},{"text":"Quale organo ha competenza in materia di approvazione del bilancio di previsione:","options":["La Giunta Comunale","Il Consiglio Comunale","Il Sindaco",""],"correct":1},{"text":"La regolazione delle tariffe del servizio idrico è affidata a:","options":["Ministero dell’Interno","Agenzia delle Entrate","ARERA",""],"correct":2},{"text":"L’accesso documentale disciplinato dalla Legge n.241/1990 è riconosciuto:","options":["A chiunque senza necessità di motivazione","Ai soli Consiglieri Comunali","Ai soggetti portatori di un interesse diretto, concreto e attuale",""],"correct":2},{"text":"L’impegno di spesa costituisce:","options":["La fase della spesa con cui viene costituito il vincolo sulle previsioni di bilancio","La fase conclusiva del pagamento","L’ordine impartito al tesoriere per effettuare il pagamento",""],"correct":0},{"text":"Per affidare un servizio di pulizia degli uffici comunali per 12 mesi. Quale atto è corretto adottare?","options":["Delibera di Consiglio Comunale di approvazione del servizio","Determina dirigenziale di affidamento con contestuale impegno di spesa","Delibera di Giunta di liquidazione delle fatture",""],"correct":1},{"text":"Quale tra i seguenti atti è tipicamente adottato dalla Giunta Comunale?","options":["Approvazione del PEG (Piano Esecutivo di Gestione)","Accertamento delle entrate tributarie","Emissioni di Sanzioni Amministrative",""],"correct":0}]},"attiva":false},{"nome":"Configurazione 4","dati":null,"attiva":false}]/*FINE_BATTERIE_INTERNE*/;
+let batterieInterne = /*BATTERIE_INTERNE*/[{"nome":"Busta 1","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-22","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"1G6XC92S86"},"domande":[{"text":"Ai sensi della normativa vigente, il presupposto dell’IMU è:","options":["La residenza anagrafica nel Comune","Il possesso di immobili a titolo di proprietà o altro diritto reale","La sola detenzione dell’immobile",""],"correct":1},{"text":"Il termine ordinario per la notifica degli avvisi di accertamento dei tributi locali è:","options":["Il 31 dicembre del quinto anno successivo","Dieci anni dalla violazione","Tre anni dalla dichiarazione",""],"correct":0},{"text":"Che cosa è un’istanza:","options":["E’ l’atto con cui il cittadino chiede che l’amministrazione emani nei suoi confronti di un provvedimento","E’ una domanda di assunzione presentata ad un ente pubblico","E’ la richiesta di un provvedimento legislativo presentata da un cittadino alle camere",""],"correct":0},{"text":"Il servizio idrico integrato comprende:","options":["Solo distribuzione dell’acqua","Acquedotto, fognatura e depurazione","Solo depurazione",""],"correct":1},{"text":"Quale organo ha competenza in materia di approvazione del bilancio di previsione:","options":["La Giunta Comunale","Il Consiglio Comunale","Il Sindaco",""],"correct":1},{"text":"La regolazione delle tariffe del servizio idrico è affidata a:","options":["Ministero dell’Interno","Agenzia delle Entrate","ARERA",""],"correct":2},{"text":"L’accesso documentale disciplinato dalla Legge n.241/1990 è riconosciuto:","options":["A chiunque senza necessità di motivazione","Ai soli Consiglieri Comunali","Ai soggetti portatori di un interesse diretto, concreto e attuale",""],"correct":2},{"text":"L’impegno di spesa costituisce:","options":["La fase della spesa con cui viene costituito il vincolo sulle previsioni di bilancio","La fase conclusiva del pagamento","L’ordine impartito al tesoriere per effettuare il pagamento",""],"correct":0},{"text":"A norma dell'art. 12 del DPR n. 62/2013 (Codice di comportamento dei dipendenti pubblici), il dipendente che riceve una richiesta da parte di un cittadino su una pratica che non rientra nelle proprie competenze deve:","options":["Limitarsi a dichiarare la propria incompetenza, invitando il cittadino a reperire autonomamente le informazioni necessarie","Indirizzare l'interessato al funzionario o all'ufficio competente della medesima amministrazione, fornendo le indicazioni necessarie","Trasmettere direttamente la richiesta ad altra amministrazione, senza ulteriori comunicazioni all'interessato.",""],"correct":1},{"text":"Quale tra i seguenti atti è tipicamente adottato dalla Giunta Comunale?","options":["Approvazione del PEG (Piano Esecutivo di Gestione)","Accertamento delle entrate tributarie","Emissioni di Sanzioni Amministrative",""],"correct":0}]},"attiva":false},{"nome":"Busta 2","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-22","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"1G6XC92S86"},"domande":[{"text":"Ai sensi della normativa vigente, il presupposto dell’IMU è:","options":["La residenza anagrafica nel Comune","Il possesso di immobili a titolo di proprietà o altro diritto reale","La sola detenzione dell’immobile",""],"correct":1},{"text":"Il termine ordinario per la notifica degli avvisi di accertamento dei tributi locali è:","options":["Il 31 dicembre del quinto anno successivo","Dieci anni dalla violazione","Tre anni dalla dichiarazione",""],"correct":0},{"text":"Che cosa è un’istanza:","options":["E’ l’atto con cui il cittadino chiede che l’amministrazione emani nei suoi confronti di un provvedimento","E’ una domanda di assunzione presentata ad un ente pubblico","E’ la richiesta di un provvedimento legislativo presentata da un cittadino alle camere",""],"correct":0},{"text":"Il servizio idrico integrato comprende:","options":["Solo distribuzione dell’acqua","Acquedotto, fognatura e depurazione","Solo depurazione",""],"correct":1},{"text":"Quale organo ha competenza in materia di approvazione del bilancio di previsione:","options":["La Giunta Comunale","Il Consiglio Comunale","Il Sindaco",""],"correct":1},{"text":"La regolazione delle tariffe del servizio idrico è affidata a:","options":["Ministero dell’Interno","Agenzia delle Entrate","ARERA",""],"correct":2},{"text":"L’accesso documentale disciplinato dalla Legge n.241/1990 è riconosciuto:","options":["A chiunque senza necessità di motivazione","Ai soli Consiglieri Comunali","Ai soggetti portatori di un interesse diretto, concreto e attuale",""],"correct":2},{"text":"L’impegno di spesa costituisce:","options":["La fase della spesa con cui viene costituito il vincolo sulle previsioni di bilancio","La fase conclusiva del pagamento","L’ordine impartito al tesoriere per effettuare il pagamento",""],"correct":0},{"text":"Per affidare un servizio di pulizia degli uffici comunali per 12 mesi. Quale atto è corretto adottare?","options":["Delibera di Consiglio Comunale di approvazione del servizio","Determina dirigenziale di affidamento con contestuale impegno di spesa","Delibera di Giunta di liquidazione delle fatture",""],"correct":1},{"text":"Quale tra i seguenti atti è tipicamente adottato dalla Giunta Comunale?","options":["Approvazione del PEG (Piano Esecutivo di Gestione)","Accertamento delle entrate tributarie","Emissioni di Sanzioni Amministrative",""],"correct":0}]},"attiva":false},{"nome":"Busta 3","dati":{"pin":"1234","configurazione":{"comune":"Comune di Rometta","concorso":"Concorso Pubblico per Esami","data":"2026-06-22","durata":30,"minimo":21,"ptEsatta":3,"ptErrata":0,"ptOmessa":0,"candidatoCodice":"1G6XC92S86","randomizza":false},"domande":[{"text":"Ai sensi della normativa vigente, il presupposto dell’IMU è:","options":["La residenza anagrafica nel Comune","Il possesso di immobili a titolo di proprietà o altro diritto reale","La sola detenzione dell’immobile",""],"correct":1},{"text":"Il termine ordinario per la notifica degli avvisi di accertamento dei tributi locali è:","options":["Il 31 dicembre del quinto anno successivo","Dieci anni dalla violazione","Tre anni dalla dichiarazione",""],"correct":0},{"text":"Che cosa è un’istanza:","options":["E’ l’atto con cui il cittadino chiede che l’amministrazione emani nei suoi confronti di un provvedimento","E’ una domanda di assunzione presentata ad un ente pubblico","E’ la richiesta di un provvedimento legislativo presentata da un cittadino alle camere",""],"correct":0},{"text":"Il servizio idrico integrato comprende:","options":["Solo distribuzione dell’acqua","Acquedotto, fognatura e depurazione","Solo depurazione",""],"correct":1},{"text":"Quale organo ha competenza in materia di approvazione del bilancio di previsione:","options":["La Giunta Comunale","Il Consiglio Comunale","Il Sindaco",""],"correct":1},{"text":"La regolazione delle tariffe del servizio idrico è affidata a:","options":["Ministero dell’Interno","Agenzia delle Entrate","ARERA",""],"correct":2},{"text":"L’accesso documentale disciplinato dalla Legge n.241/1990 è riconosciuto:","options":["A chiunque senza necessità di motivazione","Ai soli Consiglieri Comunali","Ai soggetti portatori di un interesse diretto, concreto e attuale",""],"correct":2},{"text":"L’impegno di spesa costituisce:","options":["La fase della spesa con cui viene costituito il vincolo sulle previsioni di bilancio","La fase conclusiva del pagamento","L’ordine impartito al tesoriere per effettuare il pagamento",""],"correct":0},{"text":"Quale tra le seguenti affermazioni sulle determine è corretta?","options":["Sono atti politici adottati dal Consiglio","Sono atti di gestione adottati dai dirigenti","Sono atti obbligatoriamente approvati dalla Giunta",""],"correct":1},{"text":"Quale tra i seguenti atti è tipicamente adottato dalla Giunta Comunale?","options":["Approvazione del PEG (Piano Esecutivo di Gestione)","Accertamento delle entrate tributarie","Emissioni di Sanzioni Amministrative",""],"correct":0}]},"attiva":false},{"nome":"Configurazione 4","dati":null,"attiva":false}]/*FINE_BATTERIE_INTERNE*/;
 
 function renderBatterie() {
   const container = document.getElementById('batterie-list');
@@ -664,21 +1071,22 @@ function renderBatterie() {
     const info = hasDati
       ? `<span style="font-size:11px;color:var(--ink3);font-family:'IBM Plex Mono',monospace">${b.dati.domande ? b.dati.domande.filter(d=>d.text).length : 0} dom.</span>`
       : `<span style="font-size:11px;color:var(--ink3)">vuota</span>`;
-    const attivaStyle = b.attiva
-      ? 'background:var(--green-bg);border-color:#a8d8bb;color:var(--green);font-weight:600'
-      : 'background:transparent';
     const disabilitato = hasDati ? '' : 'disabled style="opacity:.4;cursor:default"';
     return `
       <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--border2);border-radius:var(--radius);background:${b.attiva ? 'var(--accent-light)' : '#fafaf8'}">
         <input type="text" value="${b.nome}" onchange="rinominaBatteria(${i}, this.value)"
           style="border:none;background:transparent;font-size:13px;font-weight:500;color:var(--ink);padding:0;width:140px;outline:none">
         ${info}
-        <div style="margin-left:auto;display:flex;gap:6px">
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px">
           <button class="btn btn-sm" id="btn-batt-salva-${i}" onclick="salvaInBatteria(${i})">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-${i}" onclick="scaricaConfigurazioneBatteria(${i})" ${disabilitato}>Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-${i}" onclick="caricaFileInBatteria(${i})">Carica</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-${i}" onclick="stampaConfigurazione(${i})" ${disabilitato}>Stampa</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-${i}" onclick="eliminaBatteria(${i})" ${disabilitato}>Elimina</button>
-          <button class="btn btn-sm" id="btn-batt-attiva-${i}" onclick="attivaBatteria(${i})" style="${attivaStyle};transition:all .2s" ${disabilitato}>Attiva</button>
+          <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:${hasDati?'pointer':'default'};padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
+            <input type="checkbox" ${b.attiva?'checked':''} ${hasDati?'':'disabled'} onchange="attivaBatteria(${i}, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:${hasDati?'pointer':'default'}">
+            Attiva
+          </label>
         </div>
       </div>`;
   }).join('');
@@ -695,10 +1103,15 @@ function caricaFileInBatteria(i) {
   document.getElementById('config-file-input').click();
 }
 
-function attivaBatteria(i) {
+function attivaBatteria(i, checked) {
   const b = batterieInterne[i];
-  if (!b.dati) return;
-  batterieInterne.forEach((x, idx) => x.attiva = (idx === i));
+  if (!b.dati) { renderBatterie(); return; }
+  if (checked === false) {
+    // Deseleziona: nessuna configurazione attiva
+    batterieInterne.forEach(x => x.attiva = false);
+  } else {
+    batterieInterne.forEach((x, idx) => x.attiva = (idx === i));
+  }
   applicaConfigurazioneAttiva();
   renderBatterie();
 }
@@ -709,6 +1122,61 @@ function eliminaBatteria(i) {
   batterieInterne[i].dati = null;
   if (b.attiva) batterieInterne[i].attiva = false;
   renderBatterie();
+}
+
+function stampaConfigurazione(i) {
+  const b = batterieInterne[i];
+  if (!b.dati) return;
+  const cfg = b.dati.configurazione || {};
+  const domandeStampa = (b.dati.domande || []).filter(d => d.text);
+  const letters = ['A', 'B', 'C', 'D'];
+  const logoSrc = document.querySelector('.verbale-header-print img') ? document.querySelector('.verbale-header-print img').src : '';
+
+  const righeDomande = domandeStampa.map((q, idx) => {
+    const opzioniHtml = (q.options || []).map((opt, oIdx) => {
+      if (!opt) return '';
+      const isCorrect = oIdx === q.correct;
+      return `<div style="padding:2px 6px;margin-bottom:1px;border-radius:3px;${isCorrect ? 'background:#e8f5ee;border:1px solid #a8d8bb;font-weight:600;color:#1e6641' : 'color:#333'}">${letters[oIdx]}) ${opt}</div>`;
+    }).join('');
+    return `
+      <div class="q-item">
+        <p class="q-num">DOM. ${String(idx+1).padStart(2,'0')}</p>
+        <p class="q-text">${q.text}</p>
+        ${opzioniHtml}
+      </div>`;
+  }).join('');
+
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <!DOCTYPE html>
+    <html lang="it"><head><meta charset="UTF-8">
+    <title>${b.nome}</title>
+    <style>
+      *{box-sizing:border-box}
+      body{font-family:'IBM Plex Sans',Arial,sans-serif;color:#1a1a1a;max-width:700px;margin:14px auto;padding:0 14px;font-size:10.5px}
+      .header{text-align:center;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #1a1a1a}
+      .header img{width:42px;height:auto;display:block;margin:0 auto 4px}
+      .header h1{font-size:14px;font-weight:700;margin:0 0 2px}
+      .header p{font-size:10px;color:#444;margin:0 0 1px}
+      .header h2{font-size:12px;font-weight:600;margin:6px 0 0;color:#1a3a6b}
+      .q-item{margin-bottom:13px;break-inside:avoid;page-break-inside:avoid}
+      .q-num{font-size:9px;font-weight:600;color:#888;font-family:'IBM Plex Mono',monospace;margin:0 0 1px}
+      .q-text{font-size:10.5px;font-weight:500;color:#1a1a1a;margin:0 0 3px;line-height:1.25}
+      @media print{ body{margin:0;padding:0 8mm;font-size:10px} @page{margin:8mm} }
+    </style>
+    </head><body>
+      <div class="header">
+        ${logoSrc ? `<img src="${logoSrc}" alt="Stemma">` : ''}
+        <h1>${(cfg.comune || 'COMUNE DI ROMETTA').toUpperCase()}</h1>
+        <p>${cfg.concorso || 'Concorso Pubblico per Esami'}</p>
+        <p>Data sessione: ${cfg.data ? new Date(cfg.data).toLocaleDateString('it-IT') : '—'}</p>
+        <h2>${b.nome}</h2>
+      </div>
+      <div>${righeDomande}</div>
+    </body></html>
+  `);
+  win.document.close();
+  win.onload = () => { win.focus(); win.print(); };
 }
 
 function salvaInBatteria(i) {
