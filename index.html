@@ -272,7 +272,7 @@ textarea{resize:vertical;min-height:52px}
       </div>
       <div class="row">
         <div class="field" style="flex-direction:row;align-items:center;gap:8px">
-          <input type="checkbox" id="cfg-randomizza" checked="" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
+          <input type="checkbox" id="cfg-randomizza" checked onchange="randomizzaEsame = this.checked" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0">
           <label for="cfg-randomizza" class="lbl" style="margin:0;text-transform:none;font-size:13px;font-weight:400;color:var(--ink);cursor:pointer">Randomizza ordine domande e risposte a ogni avvio dell'esame</label>
         </div>
       </div>
@@ -1035,9 +1035,11 @@ let configurazione = {
   ptEsatta: 1,
   ptErrata: 0,
   ptOmessa: 0,
-  candidatoCodice: "CAND-001",
-  randomizza: true
+  candidatoCodice: "CAND-001"
 };
+
+// Impostazione GLOBALE dell'app (non legata a nessuna configurazione/busta salvata)
+let randomizzaEsame = true;
 
 let domande = Array.from({ length: 10 }, () => ({
   text: "",
@@ -1359,7 +1361,7 @@ function readConfigForm() {
   configurazione.ptErrata = Math.round(parseFloat(document.getElementById('cfg-pt-errata').value)) || 0;
   configurazione.ptOmessa = Math.round(parseFloat(document.getElementById('cfg-pt-omessa').value)) || 0;
   configurazione.candidatoCodice = document.getElementById('cfg-candidato-codice').value;
-  configurazione.randomizza = document.getElementById('cfg-randomizza').checked;
+  randomizzaEsame = document.getElementById('cfg-randomizza').checked;
 }
 
 function updateConfigForm() {
@@ -1372,7 +1374,8 @@ function updateConfigForm() {
   document.getElementById('cfg-pt-errata').value = configurazione.ptErrata;
   document.getElementById('cfg-pt-omessa').value = configurazione.ptOmessa;
   document.getElementById('cfg-candidato-codice').value = configurazione.candidatoCodice;
-  document.getElementById('cfg-randomizza').checked = !!configurazione.randomizza;
+  // NOTA: la checkbox randomizza NON viene toccata qui: è un'impostazione globale
+  // dell'app, indipendente dalla configurazione/busta attivata.
 }
 
 function flashBtn(id, successLabel) {
@@ -1590,7 +1593,7 @@ function startExam() {
 
   // Costruisci l'elenco domande per l'esame (eventualmente randomizzato)
   let valideBase = domandeValide();
-  if (configurazione.randomizza) {
+  if (randomizzaEsame) {
     // Randomizza ordine domande; per ogni domanda randomizza anche le opzioni (mantenendo quella corretta)
     valideBase = shuffleArray(valideBase).map(q => {
       const opzioniValide = q.options
