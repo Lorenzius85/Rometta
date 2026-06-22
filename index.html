@@ -290,7 +290,8 @@ textarea{resize:vertical;min-height:52px}
           <button class="btn btn-sm" id="btn-batt-salva-0" onclick="salvaInBatteria(0)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-0" onclick="scaricaConfigurazioneBatteria(0)">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-0" onclick="caricaFileInBatteria(0)">Carica</button>
-          <button class="btn btn-sm" id="btn-batt-stampa-0" onclick="stampaConfigurazione(0)">Stampa</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-r-0" onclick="stampaRisposte(0)">Stampa risposte</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-d-0" onclick="stampaDomande(0)">Stampa domande</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-0" onclick="eliminaBatteria(0)">Elimina</button>
           <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:pointer;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
             <input type="checkbox" onchange="attivaBatteria(0, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:pointer">
@@ -305,7 +306,8 @@ textarea{resize:vertical;min-height:52px}
           <button class="btn btn-sm" id="btn-batt-salva-1" onclick="salvaInBatteria(1)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-1" onclick="scaricaConfigurazioneBatteria(1)">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-1" onclick="caricaFileInBatteria(1)">Carica</button>
-          <button class="btn btn-sm" id="btn-batt-stampa-1" onclick="stampaConfigurazione(1)">Stampa</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-r-1" onclick="stampaRisposte(1)">Stampa risposte</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-d-1" onclick="stampaDomande(1)">Stampa domande</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-1" onclick="eliminaBatteria(1)">Elimina</button>
           <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:pointer;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
             <input type="checkbox" onchange="attivaBatteria(1, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:pointer">
@@ -320,7 +322,8 @@ textarea{resize:vertical;min-height:52px}
           <button class="btn btn-sm" id="btn-batt-salva-2" onclick="salvaInBatteria(2)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-2" onclick="scaricaConfigurazioneBatteria(2)">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-2" onclick="caricaFileInBatteria(2)">Carica</button>
-          <button class="btn btn-sm" id="btn-batt-stampa-2" onclick="stampaConfigurazione(2)">Stampa</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-r-2" onclick="stampaRisposte(2)">Stampa risposte</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-d-2" onclick="stampaDomande(2)">Stampa domande</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-2" onclick="eliminaBatteria(2)">Elimina</button>
           <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:pointer;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
             <input type="checkbox" onchange="attivaBatteria(2, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:pointer">
@@ -335,7 +338,8 @@ textarea{resize:vertical;min-height:52px}
           <button class="btn btn-sm" id="btn-batt-salva-3" onclick="salvaInBatteria(3)">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-3" onclick="scaricaConfigurazioneBatteria(3)" disabled="" style="opacity:.4;cursor:default">Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-3" onclick="caricaFileInBatteria(3)">Carica</button>
-          <button class="btn btn-sm" id="btn-batt-stampa-3" onclick="stampaConfigurazione(3)" disabled="" style="opacity:.4;cursor:default">Stampa</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-r-3" onclick="stampaRisposte(3)" disabled="" style="opacity:.4;cursor:default">Stampa risposte</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-d-3" onclick="stampaDomande(3)" disabled="" style="opacity:.4;cursor:default">Stampa domande</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-3" onclick="eliminaBatteria(3)" disabled="" style="opacity:.4;cursor:default">Elimina</button>
           <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:default;padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
             <input type="checkbox" disabled="" onchange="attivaBatteria(3, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:default">
@@ -1083,7 +1087,8 @@ function renderBatterie() {
           <button class="btn btn-sm" id="btn-batt-salva-${i}" onclick="salvaInBatteria(${i})">Salva</button>
           <button class="btn btn-sm" id="btn-batt-scarica-${i}" onclick="scaricaConfigurazioneBatteria(${i})" ${disabilitato}>Scarica</button>
           <button class="btn btn-sm" id="btn-batt-carica-${i}" onclick="caricaFileInBatteria(${i})">Carica</button>
-          <button class="btn btn-sm" id="btn-batt-stampa-${i}" onclick="stampaConfigurazione(${i})" ${disabilitato}>Stampa</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-r-${i}" onclick="stampaRisposte(${i})" ${disabilitato}>Stampa risposte</button>
+          <button class="btn btn-sm" id="btn-batt-stampa-d-${i}" onclick="stampaDomande(${i})" ${disabilitato}>Stampa domande</button>
           <button class="btn btn-sm btn-danger" id="btn-batt-elimina-${i}" onclick="eliminaBatteria(${i})" ${disabilitato}>Elimina</button>
           <label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);cursor:${hasDati?'pointer':'default'};padding-left:4px;border-left:1px solid var(--border2);margin-left:2px">
             <input type="checkbox" ${b.attiva?'checked':''} ${hasDati?'':'disabled'} onchange="attivaBatteria(${i}, this.checked)" style="width:15px;height:15px;accent-color:var(--green);cursor:${hasDati?'pointer':'default'}">
@@ -1126,7 +1131,7 @@ function eliminaBatteria(i) {
   renderBatterie();
 }
 
-function stampaConfigurazione(i) {
+function _stampaBase(i, conRisposte) {
   const b = batterieInterne[i];
   if (!b.dati) return;
   const cfg = b.dati.configurazione || {};
@@ -1137,7 +1142,7 @@ function stampaConfigurazione(i) {
   const righeDomande = domandeStampa.map((q, idx) => {
     const opzioniHtml = (q.options || []).map((opt, oIdx) => {
       if (!opt) return '';
-      const isCorrect = oIdx === q.correct;
+      const isCorrect = conRisposte && oIdx === q.correct;
       return `<div style="padding:2px 6px;margin-bottom:1px;border-radius:3px;${isCorrect ? 'background:#e8f5ee;border:1px solid #a8d8bb;font-weight:600;color:#1e6641' : 'color:#333'}">${letters[oIdx]}) ${opt}</div>`;
     }).join('');
     return `
@@ -1180,6 +1185,9 @@ function stampaConfigurazione(i) {
   win.document.close();
   win.onload = () => { win.focus(); win.print(); };
 }
+
+function stampaRisposte(i) { _stampaBase(i, true); }
+function stampaDomande(i)  { _stampaBase(i, false); }
 
 function salvaInBatteria(i) {
   readConfigForm();
